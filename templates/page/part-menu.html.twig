@@ -1,0 +1,5 @@
+{% for page in menu %}
+<li class="nav-item">
+    <a class="nav-link" href="{{ path('page_view', {'id': page.id}) }}">{{ page.name }}</a>
+</li>
+{% endfor %}

@@ -1,0 +1,38 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}{% trans %}Pages{% endtrans %} {{ parent() }}{% endblock %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-12">
+            <h1>{% trans %}Pages{% endtrans %} <small><a href="{{ path('page_create') }}"><i class="oi oi-plus"></i></a></small></h1>
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th scope="col">Name</th>
+                    <th scope="col">Title</th>
+                    <th scope="col" class="text-center">Active</th>
+                    <th scope="col"></th>
+                </tr>
+                </thead>
+                {% if pages is defined %}
+                <tbody>
+                {% for page in pages %}
+                <tr>
+                    <th scope="row">{{ page.name }}</th>
+                    <td>{{ page.title }}</td>
+                    <td class="text-center">{% if page.active == 1%}<i class="oi oi-check"></i>{% else %}<i class="oi oi-x"></i>{% endif %}</td>
+                    <td class="text-right"><a href="{{ path('page_modify', {'id': page.id}) }}"><i class="oi oi-pencil"></i></a></td>
+                </tr>
+                {% endfor %}
+                </tbody>
+                {% endif %}
+            </table>
+        </div>
+    </div>
+{% endblock %}
+
+
+{% block javascripts %}
+{{ parent() }}
+{% endblock %}

@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    {% block stylesheets %}
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="{{ asset('bootstrap/css/bootstrap.min.css') }}" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <!-- Custom css -->
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+    <!-- Open Iconic -->
+    <link rel="stylesheet" href="{{ asset('font/css/open-iconic-bootstrap.css') }}">
+    {% endblock %}
+
+    <title>{% block title %}@PWClassic{% endblock %}</title>
+</head>
+<body>
+<div class="container d-none d-md-block">
+    <div class="row">
+        <div class="col-3 col-md-4 col-lg-5 text-right">
+            <h5 class="murr-head text-muted">гильдия<p>&nbsp;</p></h5>
+        </div>
+        <div class="col-6 col-md-3 col-lg-2">
+            <img src="{{ asset('gfx/murr-eye.jpg') }}" class="img-fluid" alt="">
+        </div>
+        <div class="col-3 col-md-5 col-lg-5">
+            <h5 class="murr-head">Murr <p><a href="https://pwclassic.net" target="_blank">@pwclassic.net</a></p></h5>
+        </div>
+    </div>
+</div>
+
+<nav class="navbar sticky-top navbar-expand-lg navbar-light container">
+    <!--<a class="navbar-brand" href="#">Murr</a>-->
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link" href="/">{% trans %}Home{% endtrans %} <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Форум</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Прием</a>
+            </li>
+            {{ render(controller('App\\Controller\\PageController::listMenu', {'request': app.request})) }}
+        </ul>
+        <ul class="navbar-nav mr-2">
+            {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        {{ app.user.nickName }} <span class="oi oi-cog" title="icon name" aria-hidden="true"></span>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="#">{% trans %}Profile{% endtrans %}</a>
+                        {% if is_granted('ROLE_ADMIN') %}
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="{{ path('page_list') }}">{% trans %}Pages{% endtrans %}</a>
+                            <a class="dropdown-item" href="#">{% trans %}Users{% endtrans %}</a>
+                        {% endif %}
+                        <div class="dropdown-divider"></div>
+                        <a class="nav-link" href="{{ path('app_logout') }}"><span class="oi oi-account-logout" title="" aria-hidden="true"></span> Выход</a>
+                    </div>
+                </li>
+            {% else %}
+            <li class="nav-item">
+                <a class="nav-link" href="{{ path('app_login') }}">Вход <span class="oi oi-account-login" title="" aria-hidden="true"></span></a>
+            </li>
+            {% endif %}
+        </ul>
+        <!--
+        <form class="form-inline my-2 my-lg-0">
+            <div class="input-group">
+                <input class="form-control" type="email" placeholder="{{ 'Email'|trans }}" aria-label="E-mail">
+                <input class="form-control" type="password" placeholder="{{ 'Password'|trans }}" aria-label="Password">
+                <div class="input-group-append">
+                    <button class="btn btn-success" type="submit">{{ 'Sign in'|trans }}</button>
+                </div>
+            </div>
+        </form>
+        -->
+
+    </div>
+</nav>
+<br>
+<!-- Alerts -->
+<!-- use bootstrap 4 alert classes: primary, secondary, success, danger, warning, info, light, dark -->
+<div class="container">
+    {% for label, messages in app.flashes %}
+        {% for message in messages %}
+            <div class="alert alert-{{ label }}" role="alert">{{ message }}</div>
+        {% endfor %}
+    {% endfor %}
+</div>
+
+<div class="container">
+{% block body %}
+    <div class="row">
+        <div class="col-12">
+            <h1>Hello, world!</h1>
+            <p>als dksdjhf kasdhf lkasd fksad</p>
+            <p>als dksdjhf kasdhf lkasd fksad</p>
+            <p>als dksdjhf kasdhf lkasd fksad</p>
+            <p>als dksdjhf kasdhf lkasd fksad</p>
+            <p>als dksdjhf kasdhf lkasd fksad</p>
+            <p>als dksdjhf kasdhf lkasd fksad</p>
+            <p>als dksdjhf kasdhf lkasd fksad</p>
+            <p>als dksdjhf kasdhf lkasd fksad</p>
+            <p>als dksdjhf kasdhf lkasd fksad</p>
+            <p>als dksdjhf kasdhf lkasd fksad</p>
+            <p>als dksdjhf kasdhf lkasd fksad</p>
+            <p>als dksdjhf kasdhf lkasd fksad</p>
+            <p>als dksdjhf kasdhf lkasd fksad</p>
+            <p>als dksdjhf kasdhf lkasd fksad</p>
+            <p>als dksdjhf kasdhf lkasd fksad</p>
+            <p>als dksdjhf kasdhf lkasd fksad</p>
+            <p>als dksdjhf kasdhf lkasd fksad</p>
+            <p>als dksdjhf kasdhf lkasd fksad</p>
+            <p>als dksdjhf kasdhf lkasd fksad</p>
+        </div>
+    </div>
+{% endblock %}
+</div>
+
+{% block javascripts %}
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="{{ asset('jquery/jquery.slim.min.js') }}" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="{{ asset('bundles/alexandermatveevpopper/popper.min.js') }}" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+<script src="{{ asset('bootstrap/js/bootstrap.min.js') }}" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+<script src='https://www.google.com/recaptcha/api.js'></script>
+{% endblock %}
+</body>
+</html>

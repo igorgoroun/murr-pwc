@@ -1,0 +1,59 @@
+security:
+    # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
+    providers:
+        #in_memory: { memory: ~ }
+        sqldb:
+            entity:
+                class: App\Entity\User
+                property: email
+    firewalls:
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+        main:
+            anonymous: true
+            guard:
+                authenticators:
+                    - App\Security\AppAuthenticator
+            logout:
+                path: app_logout
+
+            remember_me:
+                secret: '%kernel.secret%'
+                lifetime: 604800
+                path: /
+
+            # activate different ways to authenticate
+
+            # http_basic: true
+            # https://symfony.com/doc/current/security.html#a-configuring-how-your-users-will-authenticate
+
+            form_login: true
+            # https://symfony.com/doc/current/security/form_login_setup.html
+
+    encoders:
+        App\Entity\User:
+            algorithm: bcrypt
+
+    role_hierarchy:
+        ROLE_USER: ROLE_GUEST
+        ROLE_MAJOR: ROLE_USER
+        ROLE_GENERAL: ROLE_MAJOR
+        ROLE_MASTER: ROLE_GENERAL
+        ROLE_ADMIN: ROLE_MASTER
+
+    # Easy way to control access for large sections of your site
+    # Note: Only the *first* access control that matches will be used
+    access_control:
+        - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/page/modify, roles: ROLE_ADMIN }
+        - { path: ^/page/create, roles: ROLE_ADMIN }
+        - { path: ^/page/list, roles: ROLE_ADMIN }
+        - { path: ^/page, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        #- { path: ^/, roles: IS_AUTHENTICATED_FULLY }
+        #- { path: ^/login, roles: ~ }
+        #- { path: ^/, roles: ROLE_USER }
+        # - { path: ^/login, roles: ROLE_USER }
+        #- { path: ^/admin, roles: ROLE_ADMIN }
+        # - { path: ^/profile, roles: ROLE_USER }

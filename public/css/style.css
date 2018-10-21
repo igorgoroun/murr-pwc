@@ -1,0 +1,44 @@
+@import url('https://fonts.googleapis.com/css?family=Oranienbaum|Roboto:400,500,900&subset=cyrillic-ext');
+* {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 400;
+}
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Oranienbaum', serif;
+}
+h5.murr-head {
+    /*display: block;
+    position: absolute;
+    bottom: 20%;
+    */
+    font-size: 3em;
+    margin-top: 1em;
+}
+h5.murr-head p {
+    font-size: 0.3em;
+}
+
+a {
+    color: #1e7e34;
+}
+
+.navbar {
+    background-color: #fff;
+    /*border-top: 1px solid #ddd;*/
+    border-bottom: 1px solid #ddd;
+}
+.navbar-light .navbar-toggler {
+    border: 0px;
+}
+.navbar-expand-lg .navbar-nav .nav-link:hover,
+.navbar-expand-lg .navbar-nav .active .nav-link
+{
+    background-color: #1e7e34;
+    color: #fff;
+}
+
+.navbar-expand-lg .navbar-nav .nav-link {
+    padding-right: 1em;
+    padding-left: 1em;
+    color: #666;
+}

@@ -1,0 +1,22 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}Log in!{% endblock %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-12 col-md-5 col-lg-6">
+            <h1>{% trans %}Player sign up{% endtrans %}</h1>
+            {{ form_start(form) }}
+            {{ form_row(form.realName) }}
+            {{ form_row(form.nickName) }}
+            {{ form_row(form.email) }}
+            {{ form_row(form.password) }}
+            <p id="PasswdHelp" class="form-text text-muted">Пожалуйсте, не указывайте здесь пароль от своей почты, придумайте новый пароль исключительно для учетной записи на сайте.</p>
+            <div class="form-group">
+            <div class="g-recaptcha" data-sitekey="6LckEnYUAAAAADXyQSlMqYR2y8NEyxUBIt6V-Y-1"></div>
+            </div>
+            {{ form_end(form) }}
+        </div>
+    </div>
+
+{% endblock %}
