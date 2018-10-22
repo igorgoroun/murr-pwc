@@ -58,7 +58,7 @@
                     </a>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                         <a class="dropdown-item" href="#">{% trans %}Profile{% endtrans %}</a>
-                        {% if is_granted('ROLE_ADMIN') %}
+                        {% if is_granted('ROLE_EDITOR') %}
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item" href="{{ path('page_list') }}">{% trans %}Pages{% endtrans %}</a>
                             <a class="dropdown-item" href="{{ path('user_list') }}">{% trans %}Users{% endtrans %}</a>
