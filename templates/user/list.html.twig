@@ -1,0 +1,42 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}{% trans %}Users{% endtrans %} {{ parent() }}{% endblock %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-12">
+            <h1>{% trans %}Users{% endtrans %}</h1>
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th scope="col">Name</th>
+                    <th scope="col">Nickname</th>
+                    <th scope="col">Class</th>
+                    <th scope="col">Type</th>
+                    <th scope="col">Role</th>
+                    <th scope="col"></th>
+                </tr>
+                </thead>
+                {% if users is defined %}
+                <tbody>
+                {% for user in users %}
+                <tr>
+                    <th scope="row">{{ user.realName }}</th>
+                    <td>{{ user.nickName }}</td>
+                    <td>{% if user.charClass %}{{ user.charClass.name }}{% endif %}</td>
+                    <td>{% if user.charClass %}{{ user.charClass.partyRole.name }}{% endif %}</td>
+                    <td>{{ user.userRole.name }}</td>
+                    <td class="text-right"><a href="{{ path('user_modify', {'id': user.id}) }}"><i class="oi oi-pencil"></i></a></td>
+                </tr>
+                {% endfor %}
+                </tbody>
+                {% endif %}
+            </table>
+        </div>
+    </div>
+{% endblock %}
+
+
+{% block javascripts %}
+{{ parent() }}
+{% endblock %}

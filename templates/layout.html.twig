@@ -61,7 +61,7 @@
                         {% if is_granted('ROLE_ADMIN') %}
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item" href="{{ path('page_list') }}">{% trans %}Pages{% endtrans %}</a>
-                            <a class="dropdown-item" href="#">{% trans %}Users{% endtrans %}</a>
+                            <a class="dropdown-item" href="{{ path('user_list') }}">{% trans %}Users{% endtrans %}</a>
                         {% endif %}
                         <div class="dropdown-divider"></div>
                         <a class="nav-link" href="{{ path('app_logout') }}"><span class="oi oi-account-logout" title="" aria-hidden="true"></span> Выход</a>

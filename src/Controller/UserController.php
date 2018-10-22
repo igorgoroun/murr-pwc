@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\UserRegistrationType;
+use App\Form\UserType;
 use Curl\Curl;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -13,6 +14,37 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class UserController extends AbstractController
 {
+
+    /**
+     * @Route("/user/modify/{id}", name="user_modify", requirements={"id"="\d+"})
+     */
+    public function modify(User $user, Request $request) {
+        $form = $this->createForm(UserType::class, $user);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($user);
+            $em->flush();
+            return $this->redirectToRoute('user_list');
+        }
+
+        return $this->render('user/modify.html.twig', [
+            'form' => $form->createView()
+        ]);
+    }
+
+    /**
+     * @Route("/user/list", name="user_list")
+     */
+    public function listUsers() {
+        $rep = $this->getDoctrine()->getRepository('App:User');
+        $users = $rep->findBy([], ['nickName'=>'ASC']);
+
+        return $this->render('user/list.html.twig', [
+            'users' => $users
+        ]);
+    }
+
     /**
      * @Route("/signup", name="user_signup")
      */
@@ -21,7 +53,7 @@ class UserController extends AbstractController
         $form = $this->createForm(UserRegistrationType::class, $user);
         $form->handleRequest($request);
         if ($form->isSubmitted()) {
-            if ($form->isValid() /*&& $this->checkReCaptcha($request)*/) {
+            if ($form->isValid() && $this->checkReCaptcha($request)) {
                 $em = $this->getDoctrine()->getManager();
                 $group = $em->getRepository('App:UserGroup')->findOneBy(['role'=>'ROLE_GUEST']);
                 $user->setUserRole($group);

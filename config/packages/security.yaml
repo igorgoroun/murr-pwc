@@ -50,6 +50,9 @@ security:
         - { path: ^/page/create, roles: ROLE_ADMIN }
         - { path: ^/page/list, roles: ROLE_ADMIN }
         - { path: ^/page, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/user/modify, roles: ROLE_ADMIN }
+        - { path: ^/user/create, roles: ROLE_ADMIN }
+        - { path: ^/user/list, roles: ROLE_ADMIN }
         - { path: ^/, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         #- { path: ^/, roles: IS_AUTHENTICATED_FULLY }
         #- { path: ^/login, roles: ~ }
