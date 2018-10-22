@@ -9,17 +9,17 @@
             <table class="table table-striped">
                 <thead>
                 <tr>
-                    <th scope="col">Name</th>
-                    <th scope="col">Nickname</th>
-                    <th scope="col">Class</th>
-                    <th scope="col">Type</th>
-                    <th scope="col">Role</th>
+                    <th scope="col">{{ knp_pagination_sortable(pagination, 'Name', 'a.realName') }}</th>
+                    <th scope="col">{{ knp_pagination_sortable(pagination, 'Nickname', 'a.nickName') }}</th>
+                    <th scope="col">{{ knp_pagination_sortable(pagination, 'Class', 'c.id') }}</th>
+                    <th scope="col">{{ knp_pagination_sortable(pagination, 'Type', 't.id') }}</th>
+                    <th scope="col">{{ knp_pagination_sortable(pagination, 'Role', 'r.id') }}</th>
                     <th scope="col"></th>
                 </tr>
                 </thead>
-                {% if users is defined %}
+                {% if pagination is defined %}
                 <tbody>
-                {% for user in users %}
+                {% for user in pagination %}
                 <tr>
                     <th scope="row">{{ user.realName }}</th>
                     <td>{{ user.nickName }}</td>
@@ -32,6 +32,10 @@
                 </tbody>
                 {% endif %}
             </table>
+            <br>
+            <div class="navigation">
+                {{ knp_pagination_render(pagination) }}
+            </div>
         </div>
     </div>
 {% endblock %}

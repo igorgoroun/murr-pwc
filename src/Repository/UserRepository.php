@@ -22,19 +22,21 @@ class UserRepository extends ServiceEntityRepository
 //    /**
 //     * @return User[] Returns an array of User objects
 //     */
-    /*
-    public function findByExampleField($value)
+
+    public function findPaginated()
     {
-        return $this->createQueryBuilder('u')
-            ->andWhere('u.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('u.id', 'ASC')
-            ->setMaxResults(10)
+        $qb = $this->createQueryBuilder('a');
+        //select(['u','c.id as charClass', 't.id as partyRole', 'r.id as roleId'])
+        $query = $qb->select('a', 'c as char_class')
+            //->from('App:User', 'u')
+            ->leftJoin('a.charClass', 'c', 'WITH', 'c.id=a.charClass')
+            ->leftJoin('c.partyRole', 't', 'WITH', 't.id=c.partyRole')
+            ->leftJoin('a.userRole', 'r', 'WITH', 'r.id=a.userRole')
             ->getQuery()
-            ->getResult()
         ;
+        return $query;
     }
-    */
+
 
     /*
     public function findOneBySomeField($value): ?User

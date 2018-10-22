@@ -11,6 +11,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Knp\Component\Pager\PaginatorInterface;
 
 class UserController extends AbstractController
 {
@@ -19,6 +20,9 @@ class UserController extends AbstractController
      * @Route("/user/modify/{id}", name="user_modify", requirements={"id"="\d+"})
      */
     public function modify(User $user, Request $request) {
+        if (!$user) {
+            return $this->redirectToRoute('user_list');
+        }
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -35,13 +39,23 @@ class UserController extends AbstractController
 
     /**
      * @Route("/user/list", name="user_list")
+     * @param Request $request
+     * @param PaginatorInterface $paginator
+     * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function listUsers() {
+    public function listUsers(Request $request, PaginatorInterface $paginator) {
         $rep = $this->getDoctrine()->getRepository('App:User');
-        $users = $rep->findBy([], ['nickName'=>'ASC']);
+        $users = $rep->findPaginated();
+
+        $pagination = $paginator->paginate(
+            $users,
+            $request->query->getInt('page', 1),
+            20
+        );
 
         return $this->render('user/list.html.twig', [
-            'users' => $users
+            'users' => $users,
+            'pagination' => $pagination
         ]);
     }
 
