@@ -3,8 +3,14 @@
     font-family: 'Roboto', sans-serif;
     font-weight: 400;
 }
-h1, h2, h3, h4, h5, h6 {
+h1, h2, h3, h4, h1 small, h2 small, h3 small, h4 small {
     font-family: 'Oranienbaum', serif;
+}
+h1 small, h2 small, h3 small, h4 small {
+    color: #999;
+}
+h5, h6, h5 small, h6 small {
+    font-family: 'Roboto', sans-serif;
 }
 h5.murr-head {
     /*display: block;
@@ -18,8 +24,33 @@ h5.murr-head p {
     font-size: 0.3em;
 }
 
-a {
+a, .btn-link {
     color: #1e7e34;
+}
+
+blockquote {
+    margin-bottom: 1rem;
+    font-size: 1rem;
+    padding: 1rem;
+    background-color: #d3f6db;
+}
+blockquote p {
+    margin: 0;
+    padding: 0;
+}
+
+blockquote em {
+    display: block;
+    font-size: 80%;
+    color: #6c757d;
+}
+
+blockquote em::before {
+    content: "\2014 \00A0";
+}
+
+.CodeMirror, .CodeMirror-scroll {
+    min-height: 150px!important;
 }
 
 .navbar {

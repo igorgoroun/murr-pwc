@@ -36,8 +36,10 @@ security:
             algorithm: bcrypt
 
     role_hierarchy:
+        IS_AUTHENTICATED_ANONYMOUSLY: ROLE_GUEST
         ROLE_USER: ROLE_GUEST
-        ROLE_MAJOR: ROLE_USER
+        ROLE_CAPTAIN: ROLE_USER
+        ROLE_MAJOR: ROLE_CAPTAIN
         ROLE_GENERAL: [ROLE_MAJOR, ROLE_EDITOR]
         ROLE_MASTER: [ROLE_GENERAL, ROLE_EDITOR]
         ROLE_ADMIN: ROLE_MASTER
@@ -46,6 +48,7 @@ security:
     # Note: Only the *first* access control that matches will be used
     access_control:
         - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/signup, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/page/modify, roles: ROLE_EDITOR }
         - { path: ^/page/create, roles: ROLE_EDITOR }
         - { path: ^/page/list, roles: ROLE_EDITOR }
@@ -53,6 +56,22 @@ security:
         - { path: ^/user/modify, roles: ROLE_EDITOR }
         - { path: ^/user/create, roles: ROLE_EDITOR }
         - { path: ^/user/list, roles: ROLE_EDITOR }
+        - { path: ^/user/profile, roles: ROLE_GUEST }
+        - { path: ^/cv/create, roles: ROLE_GUEST }
+        - { path: ^/cv/modify, roles: ROLE_EDITOR }
+        - { path: ^/cv/vote, roles: ROLE_USER }
+        - { path: ^/cv, roles: ROLE_GUEST }
+        - { path: ^/forum/create, roles: ROLE_EDITOR }
+        - { path: ^/forum/modify, roles: ROLE_EDITOR }
+        - { path: ^/forum/dir/create, roles: ROLE_EDITOR }
+        - { path: ^/forum/dir/modify, roles: ROLE_EDITOR }
+        - { path: ^/forum/dir, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/forum/topic/create, roles: ROLE_GUEST }
+        - { path: ^/forum/topic/modify, roles: ROLE_GUEST }
+        - { path: ^/forum/topic, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/forum/post/create, roles: ROLE_GUEST }
+        - { path: ^/forum/post/modify, roles: ROLE_GUEST }
+        - { path: ^/forum, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         #- { path: ^/, roles: IS_AUTHENTICATED_FULLY }
         #- { path: ^/login, roles: ~ }

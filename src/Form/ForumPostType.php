@@ -2,25 +2,26 @@
 
 namespace App\Form;
 
-use App\Entity\CharClass;
-use App\Entity\User;
-use App\Entity\UserGroup;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use App\Entity\ForumPost;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class UserType extends AbstractType
+class ForumPostType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('nickName')
-            ->add('userRole', EntityType::class, [
-                'class' => UserGroup::class,
-                'choice_label' => 'name'
+            ->add('body', TextareaType::class, [
+                'label' => false,
+                'attr' => [
+                    'rows' => 10
+                ]
             ])
+            ->add('sign', CheckboxType::class, ['label' => 'Use sign', 'required' => false])
             ->add('save', SubmitType::class, ['label' => 'Save', 'attr' => ['class' => 'btn-primary']])
         ;
     }
@@ -28,7 +29,7 @@ class UserType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => User::class,
+            'data_class' => ForumPost::class,
         ]);
     }
 }

@@ -33,9 +33,27 @@ class UserGroup
      */
     private $users;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Forum", mappedBy="access", orphanRemoval=true)
+     */
+    private $forums;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\ForumDirectory", mappedBy="access", orphanRemoval=true)
+     */
+    private $forumDirectories;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\ForumTopic", mappedBy="access")
+     */
+    private $forumTopics;
+
     public function __construct()
     {
         $this->users = new ArrayCollection();
+        $this->forums = new ArrayCollection();
+        $this->forumDirectories = new ArrayCollection();
+        $this->forumTopics = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -92,6 +110,99 @@ class UserGroup
             // set the owning side to null (unless already changed)
             if ($user->getUserRole() === $this) {
                 $user->setUserRole(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Forum[]
+     */
+    public function getForums(): Collection
+    {
+        return $this->forums;
+    }
+
+    public function addForum(Forum $forum): self
+    {
+        if (!$this->forums->contains($forum)) {
+            $this->forums[] = $forum;
+            $forum->setAccess($this);
+        }
+
+        return $this;
+    }
+
+    public function removeForum(Forum $forum): self
+    {
+        if ($this->forums->contains($forum)) {
+            $this->forums->removeElement($forum);
+            // set the owning side to null (unless already changed)
+            if ($forum->getAccess() === $this) {
+                $forum->setAccess(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|ForumDirectory[]
+     */
+    public function getForumDirectories(): Collection
+    {
+        return $this->forumDirectories;
+    }
+
+    public function addForumDirectory(ForumDirectory $forumDirectory): self
+    {
+        if (!$this->forumDirectories->contains($forumDirectory)) {
+            $this->forumDirectories[] = $forumDirectory;
+            $forumDirectory->setAccess($this);
+        }
+
+        return $this;
+    }
+
+    public function removeForumDirectory(ForumDirectory $forumDirectory): self
+    {
+        if ($this->forumDirectories->contains($forumDirectory)) {
+            $this->forumDirectories->removeElement($forumDirectory);
+            // set the owning side to null (unless already changed)
+            if ($forumDirectory->getAccess() === $this) {
+                $forumDirectory->setAccess(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|ForumTopic[]
+     */
+    public function getForumTopics(): Collection
+    {
+        return $this->forumTopics;
+    }
+
+    public function addForumTopic(ForumTopic $forumTopic): self
+    {
+        if (!$this->forumTopics->contains($forumTopic)) {
+            $this->forumTopics[] = $forumTopic;
+            $forumTopic->setAccess($this);
+        }
+
+        return $this;
+    }
+
+    public function removeForumTopic(ForumTopic $forumTopic): self
+    {
+        if ($this->forumTopics->contains($forumTopic)) {
+            $this->forumTopics->removeElement($forumTopic);
+            // set the owning side to null (unless already changed)
+            if ($forumTopic->getAccess() === $this) {
+                $forumTopic->setAccess(null);
             }
         }
 

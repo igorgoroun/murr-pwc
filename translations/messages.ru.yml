@@ -1,11 +1,14 @@
 # Service translations
 Please sign in: Вход в систему
 Email: Почта
+Name: Имя
 Real name: Настоящее имя
 Nickname: Ник персонажа
 Char class: Класс персонажа
+Access: Доступ
 Password: Пароль
 Remember me: Запомнить меня
+Save: Сохранить
 Sign in: Войти
 Sign up: Зарегистрировать
 Player sign up: Регистрация игрока
@@ -15,6 +18,33 @@ Profile: Аккаунт
 Pages: Страницы
 Users: Игроки
 User: Игрок
-# PW translations
+Header: Заголовок
+Directory: Раздел
+Description: Описание
+New topic: Новая тема
+Sign: Подпись
+Use sign: Использовать подпись
+Reply: Написать ответ
+# Site groups
+Guest: Гость
+Member: Боец
+Captain: Капитан
+Major: Майор
+General: Маршал
+Master: Мастер
+Administrator: Админ
+Access denied: Доступ запрещен
+# PW classes
+Werewolf: Оборотень
+Warrior: Воин
+Druid: Друид
+Priest: Жрец
+Archer: Лучник
+Mage: Маг
+# PW mains
 Guild: Клан
 Forum: Форум
+Dark: Тьма
+Light: Свет
+Side: Сторона
+No side: Нет стороны

@@ -1,0 +1,56 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}{% trans %}Forum{% endtrans %} {{ parent() }}{% endblock %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-10">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{{ path('forum') }}">{{ directory.forum.name }}</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">{{ directory.name }}</li>
+                </ol>
+            </nav>
+        </div>
+        <div class="col-2 text-right">
+            {% if is_granted(directory.access.role) %}
+            <a href="{{ path('forum_topic_create', {'id': directory.id}) }}" class="btn btn-sm mt-2 btn-outline-success"><i class="oi oi-plus"></i> {% trans %}New topic{% endtrans %}</a>
+            {% endif %}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            {% if topics is defined %}
+                <table class="table">
+                <tbody>
+                {% for topic in topics %}
+                    <tr>
+                        <th scope="row"><a href="{{ path('forum_topic', {'id': topic.id}) }}">{{ topic.heading }}</a></th>
+                        <td><small>{{ topic.posts|length }} ответов</small></td>
+                        <!--
+                        <td><small>0 постов</small></td>
+                        <td><small>
+                                23/10/2018, 22:15<br>
+                                Тема: <a href="#">Пипкавейпа</a><br>
+                                От: <a href="#">Snake</a>
+                            </small>
+                        </td>
+                        -->
+                        {% if is_granted('ROLE_EDITOR') %}
+                        <td class=" text-right">
+                            <a href="#" class="btn btn-sm btn-link"><i class="oi oi-pencil"></i></a>
+                        </td>
+                        {% endif %}
+                    </tr>
+                {% endfor %}
+                </tbody>
+                </table>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}
+
+
+{% block javascripts %}
+    {{ parent() }}
+{% endblock %}

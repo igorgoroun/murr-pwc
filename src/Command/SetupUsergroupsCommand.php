@@ -50,6 +50,11 @@ class SetupUsergroupsCommand extends Command
         $user->setName('Member');
         $user->setRole('ROLE_USER');
         $em->persist($user);
+        // ROLE_CAPTAIN
+        $cap = new UserGroup();
+        $cap->setName('Captain');
+        $cap->setRole('ROLE_CAPTAIN');
+        $em->persist($cap);
         // ROLE_MAJOR
         $major = new UserGroup();
         $major->setName('Major');

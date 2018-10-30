@@ -1,14 +1,12 @@
 {% extends 'layout.html.twig' %}
 
-{% block title %}Log in!{% endblock %}
+{% block title %}Forum{% endblock %}
 
 {% block body %}
     <div class="row">
         <div class="col-12 col-md-5 col-lg-6">
-            <h1>{% trans %}Player profile{% endtrans %}</h1>
+            <h1>{% trans %}Forum{% endtrans %}</h1>
             {{ form_start(form) }}
-            {{ form_row(form.nickName) }}
-            {{ form_row(form.userRole) }}
             {{ form_end(form) }}
         </div>
     </div>

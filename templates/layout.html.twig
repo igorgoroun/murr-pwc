@@ -59,7 +59,7 @@
                         {{ app.user.nickName }} <span class="oi oi-cog" title="icon name" aria-hidden="true"></span>
                     </a>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="#">{% trans %}Profile{% endtrans %}</a>
+                        <a class="dropdown-item" href="{{ path('user_profile') }}">{% trans %}Profile{% endtrans %}</a>
                         {% if is_granted('ROLE_EDITOR') %}
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item" href="{{ path('page_list') }}">{% trans %}Pages{% endtrans %}</a>
@@ -95,7 +95,7 @@
 <div class="container">
     {% for label, messages in app.flashes %}
         {% for message in messages %}
-            <div class="alert alert-{{ label }}" role="alert">{{ message }}</div>
+            <div class="alert alert-{{ label }}" role="alert">{{ message|trans }}</div>
         {% endfor %}
     {% endfor %}
 </div>

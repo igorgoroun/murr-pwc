@@ -1,0 +1,77 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}{% trans %}Forum{% endtrans %} {{ parent() }}{% endblock %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-12">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{{ path('forum') }}">{{ directory.forum.name }}</a></li>
+                    <li class="breadcrumb-item"><a href="{{ path('forum_dir', {'id': directory.id}) }}">{{ directory.name }}</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">{{ topic.heading }}
+                    <!--a href="{{ path('forum_post_create', {'id':topic.id}) }}" class="font-weight-bold" style="margin-left: 2rem;"><i class="oi oi-plus"></i> {% trans %}Post{% endtrans %}</a>-->
+                    </li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+    {% if posts is defined %}
+    {% for post in posts %}
+    <div class="row">
+        <div class="col-12 col-sm-3 col-md-2">
+            {{ post.user.nickName }} ({{ post.user.realName }})<br>
+            <small class="text-muted">{{ post.created|date('d M Y H:i') }}</small>
+        </div>
+        <div class="col-10 col-sm-8 col-md-9">
+            {{ post.body|striptags|markdown }}
+        </div>
+        <div class="col-2 col-sm-1">
+
+        </div>
+    </div>
+    <hr>
+    {% endfor %}
+    {% endif %}
+    <div class="navigation">
+        {{ knp_pagination_render(posts) }}
+    </div>
+    <div class="row">
+        <div class="col-12 col-sm-3 col-md-2"><h4>{% trans %}Reply{% endtrans %}</h4></div>
+        <div class="col-12 col-sm-9 col-md-10">
+            {{ form_start(form) }}
+            {{ form_end(form) }}
+        </div>
+    </div>
+{% endblock %}
+
+
+{% block javascripts %}
+    {{ parent() }}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.css">
+    <script src="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.js"></script>
+    <script>
+        $(function () {
+            var simplemde = new SimpleMDE({
+                element: $("#forum_post_quick_body")[0],
+                shortcuts: {
+                    drawTable: "Cmd-Alt-T"
+                },
+                placeholder: "Reply here...",
+                spellChecker: false,
+                status: false,
+                showIcons: [""], //"code",
+                hideIcons: ["side-by-side", "fullscreen", "image", "heading"],
+            });
+
+            $("#forum_post_quick_save").click(function (e) {
+                $("#forum_post_quick_body").val(simplemde.value());
+            });
+            /*$("form[name=forum_topic]").submit(function (e) {
+                e.preventDefault();
+                console.log(simplemde.value());
+            });
+    */
+        });
+    </script>
+{% endblock %}

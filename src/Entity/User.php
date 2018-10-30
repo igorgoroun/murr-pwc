@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -48,6 +50,33 @@ class User implements UserInterface
      * @ORM\JoinColumn(nullable=true)
      */
     private $userRole;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\CharSide", inversedBy="users")
+     */
+    private $charSide;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\CV", mappedBy="user", orphanRemoval=true)
+     */
+    private $CVs;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\ForumTopic", mappedBy="user", orphanRemoval=true)
+     */
+    private $forumTopics;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\ForumPost", mappedBy="user", orphanRemoval=true)
+     */
+    private $forumPosts;
+
+    public function __construct()
+    {
+        $this->CVs = new ArrayCollection();
+        $this->forumTopics = new ArrayCollection();
+        $this->forumPosts = new ArrayCollection();
+    }
 
     /**
      * @return mixed
@@ -152,6 +181,111 @@ class User implements UserInterface
     public function setUserRole(?UserGroup $userRole): self
     {
         $this->userRole = $userRole;
+
+        return $this;
+    }
+
+    public function getCharSide(): ?CharSide
+    {
+        return $this->charSide;
+    }
+
+    public function setCharSide(?CharSide $charSide): self
+    {
+        $this->charSide = $charSide;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|CV[]
+     */
+    public function getCVs(): Collection
+    {
+        return $this->CVs;
+    }
+
+    public function addCV(CV $cV): self
+    {
+        if (!$this->CVs->contains($cV)) {
+            $this->CVs[] = $cV;
+            $cV->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCV(CV $cV): self
+    {
+        if ($this->CVs->contains($cV)) {
+            $this->CVs->removeElement($cV);
+            // set the owning side to null (unless already changed)
+            if ($cV->getUser() === $this) {
+                $cV->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|ForumTopic[]
+     */
+    public function getForumTopics(): Collection
+    {
+        return $this->forumTopics;
+    }
+
+    public function addForumTopic(ForumTopic $forumTopic): self
+    {
+        if (!$this->forumTopics->contains($forumTopic)) {
+            $this->forumTopics[] = $forumTopic;
+            $forumTopic->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeForumTopic(ForumTopic $forumTopic): self
+    {
+        if ($this->forumTopics->contains($forumTopic)) {
+            $this->forumTopics->removeElement($forumTopic);
+            // set the owning side to null (unless already changed)
+            if ($forumTopic->getUser() === $this) {
+                $forumTopic->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|ForumPost[]
+     */
+    public function getForumPosts(): Collection
+    {
+        return $this->forumPosts;
+    }
+
+    public function addForumPost(ForumPost $forumPost): self
+    {
+        if (!$this->forumPosts->contains($forumPost)) {
+            $this->forumPosts[] = $forumPost;
+            $forumPost->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeForumPost(ForumPost $forumPost): self
+    {
+        if ($this->forumPosts->contains($forumPost)) {
+            $this->forumPosts->removeElement($forumPost);
+            // set the owning side to null (unless already changed)
+            if ($forumPost->getUser() === $this) {
+                $forumPost->setUser(null);
+            }
+        }
 
         return $this;
     }

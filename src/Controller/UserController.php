@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Form\UserProfileType;
 use App\Form\UserRegistrationType;
 use App\Form\UserType;
 use Curl\Curl;
@@ -15,6 +16,26 @@ use Knp\Component\Pager\PaginatorInterface;
 
 class UserController extends AbstractController
 {
+    /**
+     * @Route("/user/profile", name="user_profile")
+     */
+    public function profile(Request $request) {
+        $user = $this->getUser();
+        dump($user);
+
+        $form = $this->createForm(UserProfileType::class, $user);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($user);
+            $em->flush();
+            return $this->redirectToRoute('homepage');
+        }
+
+        return $this->render('user/profile.html.twig', [
+            'form' => $form->createView()
+        ]);
+    }
 
     /**
      * @Route("/user/modify/{id}", name="user_modify", requirements={"id"="\d+"})
@@ -88,18 +109,6 @@ class UserController extends AbstractController
             'form' => $form->createView()
         ]);
     }
-
-
-    /**
-     * @Route("/profile", name="user_profile")
-     */
-    public function index()
-    {
-        return $this->render('user/index.html.twig', [
-            'controller_name' => 'UserController',
-        ]);
-    }
-
 
     private function checkReCaptcha(Request $request) {
         try {

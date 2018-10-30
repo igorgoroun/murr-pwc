@@ -1,13 +1,51 @@
 {% extends 'layout.html.twig' %}
 
-{% block title %}{% trans %}Forum{% endtrans %} Murr {{ parent() }}{% endblock %}
+{% block title %}{% trans %}Forum{% endtrans %} {{ parent() }}{% endblock %}
 
 {% block body %}
     <div class="row">
-        <div class="col-12 col-md-6">
-            <h1>Форум</h1>
-            <p>В разработке.</p>
+        <div class="col-12">
+            {% if forums is defined %}
+                {% if is_granted('ROLE_EDITOR') %}<a href="{{ path('forum_create') }}" class="btn btn-sm btn-link float-right"><i class="oi oi-plus"></i> Форум</a>{% endif %}
+                {% for forum in forums %}
+                <div class="row">
+                    <div class="col-6"><h4>{{ forum.name }} {% if is_granted('ROLE_EDITOR') %}<small>{{ forum.access.name }}</small>{% endif %}</h4></div>
+                    <div class="col-6 text-right">
+                        {% if is_granted('ROLE_EDITOR') %}
 
+                            <div class="btn-group" role="group">
+                                <a href="{{ path('forum_dir_create', {'id': forum.id}) }}" class="btn btn-sm btn-link"><i class="oi oi-plus"></i> Раздел</a>
+                                <a href="{{ path('forum_modify', {'id': forum.id}) }}" class="btn btn-sm btn-link"><i class="oi oi-pencil"></i></a>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+                <table class="table">
+                    <tbody>
+                        {% for dir in forum.directories %}
+                        <tr>
+                            <th scope="row"><a href="{{ path('forum_dir', {'id': dir.id}) }}">{{ dir.name }}</a></th>
+                            <td><small>{{ dir.topics|length }} тем</small></td>
+                            <!--
+                            <td><small>0 постов</small></td>
+                            <td><small>
+                                    23/10/2018, 22:15<br>
+                                    Тема: <a href="#">Пипкавейпа</a><br>
+                                    От: <a href="#">Snake</a>
+                                </small>
+                            </td>
+                            -->
+                            {% if is_granted('ROLE_EDITOR') %}
+                            <td class=" text-right">
+                                <a href="{{ path('forum_dir_modify', {'id': dir.id}) }}" class="btn btn-sm btn-link"><i class="oi oi-pencil"></i></a>
+                            </td>
+                            {% endif %}
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                {% endfor %}
+            {% endif %}
         </div>
     </div>
 {% endblock %}
