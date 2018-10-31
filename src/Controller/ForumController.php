@@ -66,11 +66,11 @@ class ForumController extends AbstractController
         $forums = $em->getRepository('App:Forum')->findAll();
         foreach ($forums as &$forum) {
             foreach ($forum->getDirectories() as &$directory) {
-                if ($this->isGranted($directory->getAccess()->getRole())) {
+                //if ($this->isGranted($directory->getAccess()->getRole())) {
                     $ps = $em->getRepository('App:ForumPost')->findBy(['directory' => $directory], ['created' => 'DESC'], 1);
                     if (count($ps)>0) $directory->setLatestPost($ps[0]);
                     $forum->addVisibleDir($directory);
-                }
+                //}
             }
         }
 
