@@ -34,6 +34,11 @@ class Forum
      */
     private $directories;
 
+    /**
+     * @var array $visibleDirs
+     */
+    private $visibleDirs = [];
+
     public function __construct()
     {
         $this->directories = new ArrayCollection();
@@ -98,4 +103,37 @@ class Forum
 
         return $this;
     }
+
+    public function getVisibleDirs(): array
+    {
+        return $this->visibleDirs;
+    }
+
+    public function addVisibleDir(ForumDirectory $directory): self
+    {
+        if (!in_array($directory, $this->visibleDirs, true)) {
+            $this->visibleDirs []= $directory;
+            $directory->setForum($this);
+        }
+        return $this;
+    }
+
+    public function removeVisibleDir(ForumDirectory $directory): self
+    {
+        if (in_array($directory, $this->visibleDirs, true)) {
+            $key = array_search($directory, $this->visibleDirs, true);
+
+            if (!$key === false) {
+                unset($this->visibleDirs[$key]);
+
+            }
+            // set the owning side to null (unless already changed)
+            if ($directory->getForum() === $this) {
+                $directory->setForum(null);
+            }
+        }
+
+        return $this;
+    }
+
 }

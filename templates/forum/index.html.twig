@@ -6,45 +6,49 @@
     <div class="row">
         <div class="col-12">
             {% if forums is defined %}
-                {% if is_granted('ROLE_EDITOR') %}<a href="{{ path('forum_create') }}" class="btn btn-sm btn-link float-right"><i class="oi oi-plus"></i> Форум</a>{% endif %}
+                <table class="table table-sm">
+                {% set i = 0 %}
                 {% for forum in forums %}
-                <div class="row">
-                    <div class="col-6"><h4>{{ forum.name }} {% if is_granted('ROLE_EDITOR') %}<small>{{ forum.access.name }}</small>{% endif %}</h4></div>
-                    <div class="col-6 text-right">
-                        {% if is_granted('ROLE_EDITOR') %}
-
-                            <div class="btn-group" role="group">
-                                <a href="{{ path('forum_dir_create', {'id': forum.id}) }}" class="btn btn-sm btn-link"><i class="oi oi-plus"></i> Раздел</a>
-                                <a href="{{ path('forum_modify', {'id': forum.id}) }}" class="btn btn-sm btn-link"><i class="oi oi-pencil"></i></a>
-                            </div>
-                        {% endif %}
-                    </div>
-                </div>
-                <table class="table">
-                    <tbody>
-                        {% for dir in forum.directories %}
-                        <tr>
-                            <th scope="row"><a href="{{ path('forum_dir', {'id': dir.id}) }}">{{ dir.name }}</a></th>
-                            <td><small>{{ dir.topics|length }} тем</small></td>
-                            <!--
-                            <td><small>0 постов</small></td>
-                            <td><small>
-                                    23/10/2018, 22:15<br>
-                                    Тема: <a href="#">Пипкавейпа</a><br>
-                                    От: <a href="#">Snake</a>
-                                </small>
-                            </td>
-                            -->
+                    <thead>
+                    <tr>
+                        <th style="border-top: 0px;" colspan="3"><h4 class="mt-0 mb-0">{{ forum.name }} {% if is_granted('ROLE_EDITOR') %}<small>{{ forum.access.name }}</small>{% endif %}</h4></th>
+                        <th style="border-top: 0px;" colspan="2" class="text-right">
                             {% if is_granted('ROLE_EDITOR') %}
-                            <td class=" text-right">
-                                <a href="{{ path('forum_dir_modify', {'id': dir.id}) }}" class="btn btn-sm btn-link"><i class="oi oi-pencil"></i></a>
-                            </td>
+
+                                <div class="btn-group mb-1" role="group">
+                                    {% if is_granted('ROLE_EDITOR') and i==0 %}<a href="{{ path('forum_create') }}" class="btn btn-sm btn-outline-success"><i class="oi oi-plus"></i> {% trans %}Forum{% endtrans %}</a>{% endif %}
+                                    <a href="{{ path('forum_dir_create', {'id': forum.id}) }}" class="btn btn-sm btn-outline-success"><i class="oi oi-plus"></i> {% trans %}Directory{% endtrans %}</a>
+                                    <a href="{{ path('forum_modify', {'id': forum.id}) }}" class="btn btn-sm btn-outline-success"><i class="oi oi-pencil"></i></a>
+                                </div>
                             {% endif %}
-                        </tr>
-                        {% endfor %}
+
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for dir in forum.visibleDirs %}
+                    <tr>
+                        <th scope="row"><a href="{{ path('forum_dir', {'id': dir.id}) }}">{{ dir.name }}</a></th>
+                        <td><small>Тем: {{ dir.topics|length }}</small></td>
+                        <td><small>Постов: {{ dir.posts|length }}</small></td>
+                        <td><small>
+                             {% if dir.latestPost is defined and dir.latestPost %}
+                                {% trans %}Topic{% endtrans %}: <a href="{{ path('forum_topic', {'id': dir.latestPost.id}) }}">{{ dir.latestPost.topic.heading }}</a><br>
+                                 <span class="text-muted">Snake, {{ dir.latestPost.created|date('d/m/Y, H:i') }}</span>
+                             {% endif %}
+                            </small>
+                        </td>
+                        <td class=" text-right">
+                            {% if is_granted('ROLE_EDITOR') %}
+                            <a href="{{ path('forum_dir_modify', {'id': dir.id}) }}" class="btn btn-sm btn-outline-success"><i class="oi oi-pencil"></i></a>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
                     </tbody>
-                </table>
+                    {% set i = i+1 %}
                 {% endfor %}
+                </table>
             {% endif %}
         </div>
     </div>

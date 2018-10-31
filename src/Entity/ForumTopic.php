@@ -42,7 +42,7 @@ class ForumTopic
     /**
      * @var bool
      */
-    private $sign;
+    private $sign = true;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\ForumDirectory", inversedBy="topics")
@@ -74,6 +74,12 @@ class ForumTopic
      * @ORM\Column(type="datetime", nullable=true)
      */
     private $modified;
+
+    /**
+     * @var \App\Entity\ForumPost|null
+     */
+    private $latestPost = null;
+
 
     public function __construct()
     {
@@ -233,6 +239,24 @@ class ForumTopic
     {
         $this->modified = $modified;
 
+        return $this;
+    }
+
+    /**
+     * @return ForumPost|null
+     */
+    public function getLatestPost(): ?ForumPost
+    {
+        return $this->latestPost;
+    }
+
+    /**
+     * @param ForumPost|null $latestPost
+     * @return ForumTopic
+     */
+    public function setLatestPost(?ForumPost $latestPost): self
+    {
+        $this->latestPost = $latestPost;
         return $this;
     }
 }

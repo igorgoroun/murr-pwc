@@ -45,6 +45,30 @@ class ForumDirectory
      */
     private $posts;
 
+    /**
+     * @var \App\Entity\ForumPost|null
+     */
+    private $latestPost = null;
+
+    /**
+     * @return ForumPost|null
+     */
+    public function getLatestPost(): ?ForumPost
+    {
+        return $this->latestPost;
+    }
+
+    /**
+     * @param ForumPost|null $latestPost
+     * @return ForumDirectory
+     */
+    public function setLatestPost(?ForumPost $latestPost): self
+    {
+        $this->latestPost = $latestPost;
+        return $this;
+    }
+
+
     public function __construct()
     {
         $this->topics = new ArrayCollection();

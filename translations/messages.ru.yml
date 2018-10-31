@@ -22,9 +22,15 @@ Header: Заголовок
 Directory: Раздел
 Description: Описание
 New topic: Новая тема
+Topic: Тема
 Sign: Подпись
 Use sign: Использовать подпись
 Reply: Написать ответ
+Author: Автор
+Answer: Ответ
+Answers: Ответы
+Update: Обновление
+Send: Отправить
 # Site groups
 Guest: Гость
 Member: Боец

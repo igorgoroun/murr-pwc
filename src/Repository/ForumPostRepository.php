@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\ForumDirectory;
 use App\Entity\ForumPost;
 use App\Entity\ForumTopic;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
@@ -28,6 +29,19 @@ class ForumPostRepository extends ServiceEntityRepository
             ->orderBy('p.created', 'ASC')
             ->getQuery();
     }
+
+    public function findLatestForDir(ForumDirectory $directory)
+    {
+        return $this->createQueryBuilder('p')
+            ->andWhere('p.directory = :dir')
+            ->setParameter('dir', $directory)
+            ->orderBy('p.created', 'DESC')
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getOneOrNullResult()
+            ;
+    }
+
 
 //    /**
 //     * @return ForumPost[] Returns an array of ForumPost objects

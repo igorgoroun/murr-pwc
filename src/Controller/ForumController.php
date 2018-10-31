@@ -62,8 +62,18 @@ class ForumController extends AbstractController
      * @Route("/forum", name="forum")
      */
     public function index() {
-        $em = $this->getDoctrine()->getRepository('App:Forum');
-        $forums = $em->findAll();
+        $em = $this->getDoctrine();
+        $forums = $em->getRepository('App:Forum')->findAll();
+        foreach ($forums as &$forum) {
+            foreach ($forum->getDirectories() as &$directory) {
+                if ($this->isGranted($directory->getAccess()->getRole())) {
+                    $ps = $em->getRepository('App:ForumPost')->findBy(['directory' => $directory], ['created' => 'DESC'], 1);
+                    if (count($ps)>0) $directory->setLatestPost($ps[0]);
+                    $forum->addVisibleDir($directory);
+                }
+            }
+        }
+
         return $this->render('forum/index.html.twig', [
             'forums' => $forums,
         ]);

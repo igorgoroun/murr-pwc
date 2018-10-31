@@ -3,42 +3,51 @@
 {% block title %}{% trans %}Forum{% endtrans %} {{ parent() }}{% endblock %}
 
 {% block body %}
-    <div class="row">
-        <div class="col-12">
-            <nav aria-label="breadcrumb">
-                <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="{{ path('forum') }}">{{ directory.forum.name }}</a></li>
-                    <li class="breadcrumb-item"><a href="{{ path('forum_dir', {'id': directory.id}) }}">{{ directory.name }}</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">{{ topic.heading }}
-                    <!--a href="{{ path('forum_post_create', {'id':topic.id}) }}" class="font-weight-bold" style="margin-left: 2rem;"><i class="oi oi-plus"></i> {% trans %}Post{% endtrans %}</a>-->
-                    </li>
-                </ol>
-            </nav>
-        </div>
-    </div>
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{{ path('forum') }}">{{ directory.forum.name }}</a></li>
+            <li class="breadcrumb-item"><a href="{{ path('forum_dir', {'id': directory.id}) }}">{{ directory.name }}</a></li>
+            <li class="breadcrumb-item active" aria-current="page">{{ topic.heading }}
+                <!--a href="{{ path('forum_post_create', {'id':topic.id}) }}" class="font-weight-bold" style="margin-left: 2rem;"><i class="oi oi-plus"></i> {% trans %}Post{% endtrans %}</a>-->
+            </li>
+        </ol>
+    </nav>
     {% if posts is defined %}
     {% for post in posts %}
-    <div class="row">
-        <div class="col-12 col-sm-3 col-md-2">
-            {{ post.user.nickName }} ({{ post.user.realName }})<br>
-            <small class="text-muted">{{ post.created|date('d M Y H:i') }}</small>
+    <div class="row pt-0 mb-0" style="border-top: 1px solid #999;">
+        <div class="col-12 col-sm-3 col-md-2 bg-light">
+            <p class="pt-2 pb-2 mb-0">
+            <input type="hidden" id="postAuthor_{{ post.id }}" value="{{ post.user.nickName }}">
+            {{ post.user.nickName }} ({{ post.user.realName }}) <small class="text-muted">{{ post.user.userrole.name }}</small>
+            <span class="badge badge-light">{{ post.created|date('d/m/Y, H:i') }}</span>
+            </p>
         </div>
-        <div class="col-10 col-sm-8 col-md-9">
+        <div class="col-12 col-sm-9 col-md-10 post-content pt-2 pb-4">
+            <input type="hidden" id="postText_{{ post.id }}" value="{{ post.body|striptags }}">
             {{ post.body|striptags|markdown }}
-        </div>
-        <div class="col-2 col-sm-1">
 
+            <p>
+            <div class="btn-group btn-group-sm float-right" role="group">
+                {% if post.user == app.user or is_granted('ROLE_EDITOR') %}
+                    <a href="{{ path('forum_post_create', {'id':post.id}) }}" class="text-right btn btn-outline-success font-weight-bold"><i class="oi oi-pencil"></i></a>
+                {% endif %}
+                <a href="#" data-text="postText_{{ post.id }}" data-author="postAuthor_{{ post.id }}" class="quickReplyLink btn btn-outline-success "><i class="oi oi-reload"></i> {% trans %}Reply{% endtrans %}</a>
+            </div>
+            </p>
         </div>
     </div>
-    <hr>
     {% endfor %}
     {% endif %}
-    <div class="navigation">
-        {{ knp_pagination_render(posts) }}
+
+    <div class="row bg-light">
+        <div class="col-12 offset-sm-3 col-sm-9 offset-md-2 col-md-10">
+            {{ knp_pagination_render(posts) }}
+        </div>
     </div>
-    <div class="row">
-        <div class="col-12 col-sm-3 col-md-2"><h4>{% trans %}Reply{% endtrans %}</h4></div>
-        <div class="col-12 col-sm-9 col-md-10">
+
+    <div id="quickPostForm" class="row" style="border-top: 1px solid #999;">
+        <div class="col-12 col-sm-3 col-md-2 mt-4"><h4>{% trans %}Reply{% endtrans %}</h4></div>
+        <div class="col-12 col-sm-9 col-md-10 mt-4">
             {{ form_start(form) }}
             {{ form_end(form) }}
         </div>
@@ -60,7 +69,7 @@
                 placeholder: "Reply here...",
                 spellChecker: false,
                 status: false,
-                showIcons: [""], //"code",
+                showIcons: ["table"], //"code",
                 hideIcons: ["side-by-side", "fullscreen", "image", "heading"],
             });
 
@@ -71,7 +80,13 @@
                 e.preventDefault();
                 console.log(simplemde.value());
             });
-    */
+            */
+            $(".quickReplyLink").click(function (e) {
+                var srcText = $("#"+$(this).data('text')).val();
+                var srcAuthor = $("#"+$(this).data('author')).val();
+                //console.log(srcText);
+                simplemde.value(srcText.replace(/^/gm,"> ") + "\n> *" + srcAuthor + "*");
+            });
         });
     </script>
 {% endblock %}

@@ -77,6 +77,11 @@ class ForumDirectoryController extends AbstractController
             $this->addFlash("warning", "Access denied");
             return $this->redirectToRoute('forum');
         }
+        $em = $this->getDoctrine()->getRepository('App:ForumPost');
+        foreach ($directory->getTopics() as &$topic) {
+            $ps = $em->findBy(['topic' => $topic], ['created' => 'DESC'], 1);
+            if (count($ps)>0) $topic->setLatestPost($ps[0]);
+        }
         return $this->render('forum/view-dir.html.twig', [
             'directory' => $directory,
             'topics' => $directory->getTopics(),

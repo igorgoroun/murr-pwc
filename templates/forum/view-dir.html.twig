@@ -21,26 +21,36 @@
     <div class="row">
         <div class="col-12">
             {% if topics is defined %}
-                <table class="table">
+                <table class="table table-sm">
+                    <thead>
+                    <tr>
+                        <th>{% trans %}Topic{% endtrans %}</th>
+                        <th class="text-center">{% trans %}Answers{% endtrans %}</th>
+                        <th>{% trans %}Author{% endtrans %}</th>
+                        <th>{% trans %}Update{% endtrans %}</th>
+                        <th></th>
+                    </tr>
+                    </thead>
                 <tbody>
                 {% for topic in topics %}
                     <tr>
-                        <th scope="row"><a href="{{ path('forum_topic', {'id': topic.id}) }}">{{ topic.heading }}</a></th>
-                        <td><small>{{ topic.posts|length }} ответов</small></td>
-                        <!--
-                        <td><small>0 постов</small></td>
-                        <td><small>
-                                23/10/2018, 22:15<br>
-                                Тема: <a href="#">Пипкавейпа</a><br>
-                                От: <a href="#">Snake</a>
-                            </small>
+                        <th scope="row">
+                            <a href="{{ path('forum_topic', {'id': topic.id}) }}">{{ topic.heading }}</a>
+                            {% if topic.description is defined %}
+                                <p class="text-muted mb-0" style="font-size: 0.7rem;">{{ topic.description }}</p>
+                            {% endif %}
+                        </th>
+                        <td class="text-center"><small>{{ topic.posts|length }}</small></td>
+                        <td><small>{{ topic.user.nickName }}</small></td>
+                        <td>
+                            <small>{{ topic.latestPost.created|date('d/m/Y, H:i') }}</small>
+                            <p class="text-muted mb-0" style="font-size: 0.7rem;">By: {{ topic.latestPost.user.nickName }}</p>
                         </td>
-                        -->
-                        {% if is_granted('ROLE_EDITOR') %}
                         <td class=" text-right">
+                            {% if is_granted('ROLE_EDITOR') %}
                             <a href="#" class="btn btn-sm btn-link"><i class="oi oi-pencil"></i></a>
+                            {% endif %}
                         </td>
-                        {% endif %}
                     </tr>
                 {% endfor %}
                 </tbody>

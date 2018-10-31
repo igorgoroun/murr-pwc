@@ -21,7 +21,7 @@ class ForumPostQuickType extends AbstractType
                     'rows' => 2
                 ]
             ])
-            ->add('save', SubmitType::class, ['label' => 'Reply', 'attr' => ['class' => 'btn-primary']])
+            ->add('save', SubmitType::class, ['label' => 'Send', 'attr' => ['class' => 'btn-primary']])
         ;
     }
 
