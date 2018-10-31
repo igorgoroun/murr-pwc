@@ -33,7 +33,7 @@
                         <td><small>Постов: {{ dir.posts|length }}</small></td>
                         <td><small>
                              {% if dir.latestPost is defined and dir.latestPost %}
-                                {% trans %}Topic{% endtrans %}: <a href="{{ path('forum_topic', {'id': dir.latestPost.id}) }}">{{ dir.latestPost.topic.heading }}</a><br>
+                                {% trans %}Topic{% endtrans %}: <a href="{{ path('forum_topic', {'id': dir.latestPost.topic.id}) }}">{{ dir.latestPost.topic.heading }}</a><br>
                                  <span class="text-muted">Snake, {{ dir.latestPost.created|date('d/m/Y, H:i') }}</span>
                              {% endif %}
                             </small>
