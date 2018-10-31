@@ -21,7 +21,6 @@ class UserController extends AbstractController
      */
     public function profile(Request $request) {
         $user = $this->getUser();
-        dump($user);
 
         $form = $this->createForm(UserProfileType::class, $user);
         $form->handleRequest($request);
