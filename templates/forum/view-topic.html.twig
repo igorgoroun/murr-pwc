@@ -28,9 +28,11 @@
 
             <p>
             <div class="btn-group btn-group-sm float-right" role="group">
+                <!--
                 {% if post.user == app.user or is_granted('ROLE_EDITOR') %}
                     <a href="{{ path('forum_post_create', {'id':post.id}) }}" class="text-right btn btn-outline-success font-weight-bold"><i class="oi oi-pencil"></i></a>
                 {% endif %}
+                -->
                 <a href="#" data-text="postText_{{ post.id }}" data-author="postAuthor_{{ post.id }}" class="quickReplyLink btn btn-outline-success "><i class="oi oi-reload"></i> {% trans %}Reply{% endtrans %}</a>
             </div>
             </p>
