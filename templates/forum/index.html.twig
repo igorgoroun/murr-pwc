@@ -11,7 +11,7 @@
                 {% for forum in forums %}
                     <thead>
                     <tr>
-                        <th style="border-top: 0px;" colspan="3"><h4 class="mt-0 mb-0">{{ forum.name }} {% if is_granted('ROLE_EDITOR') %}<small>{{ forum.access.name }}</small>{% endif %}</h4></th>
+                        <th style="border-top: 0px;" colspan="3"><h4 class="mt-4 mb-0">{{ forum.name }} {% if is_granted('ROLE_EDITOR') %}<small>{{ forum.access.name }}</small>{% endif %}</h4></th>
                         <th style="border-top: 0px;" colspan="2" class="text-right">
                             {% if is_granted('ROLE_EDITOR') %}
 

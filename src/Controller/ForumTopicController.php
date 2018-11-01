@@ -23,7 +23,11 @@ class ForumTopicController extends AbstractController
     public function index(ForumTopic $topic, Request $request, PaginatorInterface $paginator) {
 
         try {
-            $this->denyAccessUnlessGranted($topic->getAccess()->getRole());
+            if ($topic->getAccess()->getRole() == "ROLE_GUEST") {
+                $this->denyAccessUnlessGranted('IS_AUTHENTICATED_ANONYMOUSLY');
+            } else {
+                $this->denyAccessUnlessGranted($topic->getAccess()->getRole());
+            }
         } catch (AccessDeniedException $e) {
             $this->addFlash("warning", "No access!");
             return $this->redirectToRoute('forum');

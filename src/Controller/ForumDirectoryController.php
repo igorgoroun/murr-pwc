@@ -72,7 +72,12 @@ class ForumDirectoryController extends AbstractController
      */
     public function index(ForumDirectory $directory) {
         try {
-            $this->denyAccessUnlessGranted($directory->getAccess()->getRole());
+            if ($directory->getAccess()->getRole() == "ROLE_GUEST") {
+                $this->denyAccessUnlessGranted('IS_AUTHENTICATED_ANONYMOUSLY');
+            } else {
+                $this->denyAccessUnlessGranted($directory->getAccess()->getRole());
+            }
+
         } catch (AccessDeniedException $e) {
             $this->addFlash("warning", "Access denied");
             return $this->redirectToRoute('forum');
