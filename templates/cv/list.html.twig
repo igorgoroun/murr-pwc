@@ -1,0 +1,50 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}{% trans %}CV list{% endtrans %} {{ parent() }}{% endblock %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-12">
+            <h1>{% trans %}CV list{% endtrans %}</h1>
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th scope="col">{% trans %}Nickname{% endtrans %}</th>
+                    <th scope="col">{% trans %}Char class{% endtrans %}</th>
+                    <th scope="col">{% trans %}Side{% endtrans %}</th>
+                    <th scope="col">{% trans %}Char level{% endtrans %}</th>
+                    <th scope="col">{% trans %}Real name{% endtrans %}</th>
+                    <th scope="col"></th>
+                </tr>
+                </thead>
+                {% if cvs is defined %}
+                <tbody>
+                {% for cv in cvs %}
+                <tr class="">
+                    <th scope="row"><a href="{{ path('cv_view', {'id': cv.id}) }}">{{ cv.user.nickName }}</a></th>
+                    <td>{{ cv.charClass.name|trans }}</td>
+                    <td>{{ cv.charSide.name|trans }}</td>
+                    <td>{{ cv.level }}</td>
+                    <td>{{ cv.user.realName }}</td>
+                    <td>
+                        {% if cv.accepted %}
+                            <span class="badge badge-success text-white">Принят</span>
+                        {% elseif cv.declined %}
+                            <span class="badge badge-danger text-white">Отказ</span>
+                        {% else %}
+                            <span class="badge badge-warning">В процессе</span>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+                </tbody>
+                {% endif %}
+            </table>
+        </div>
+    </div>
+{% endblock %}
+
+
+{% block javascripts %}
+{{ parent() }}
+{% endblock %}

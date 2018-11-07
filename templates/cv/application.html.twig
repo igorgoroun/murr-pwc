@@ -1,0 +1,14 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}Guild application{% endblock %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-12 col-md-5 col-lg-6">
+            <h1>{% trans %}Player application{% endtrans %}</h1>
+            {{ form_start(form) }}
+            {{ form_end(form) }}
+        </div>
+    </div>
+
+{% endblock %}

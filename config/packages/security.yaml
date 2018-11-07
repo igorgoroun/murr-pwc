@@ -57,8 +57,8 @@ security:
         - { path: ^/user/create, roles: ROLE_EDITOR }
         - { path: ^/user/list, roles: ROLE_EDITOR }
         - { path: ^/user/profile, roles: ROLE_GUEST }
-        - { path: ^/cv/create, roles: ROLE_GUEST }
-        - { path: ^/cv/modify, roles: ROLE_EDITOR }
+        - { path: ^/cv/apply, roles: ROLE_GUEST }
+        - { path: ^/cv/modify, roles: ROLE_GUEST }
         - { path: ^/cv/vote, roles: ROLE_USER }
         - { path: ^/cv, roles: ROLE_GUEST }
         - { path: ^/forum/create, roles: ROLE_EDITOR }

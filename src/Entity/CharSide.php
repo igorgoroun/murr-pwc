@@ -28,10 +28,6 @@ class CharSide
      */
     private $users;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\CV", mappedBy="charSide", orphanRemoval=true)
-     */
-    private $cVs;
 
     public function __construct()
     {

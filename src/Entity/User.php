@@ -71,11 +71,17 @@ class User implements UserInterface
      */
     private $forumPosts;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\CVvote", mappedBy="user", orphanRemoval=true)
+     */
+    private $cVvotes;
+
     public function __construct()
     {
         $this->CVs = new ArrayCollection();
         $this->forumTopics = new ArrayCollection();
         $this->forumPosts = new ArrayCollection();
+        $this->cVvotes = new ArrayCollection();
     }
 
     /**
@@ -284,6 +290,37 @@ class User implements UserInterface
             // set the owning side to null (unless already changed)
             if ($forumPost->getUser() === $this) {
                 $forumPost->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|CVvote[]
+     */
+    public function getCVvotes(): Collection
+    {
+        return $this->cVvotes;
+    }
+
+    public function addCVvote(CVvote $cVvote): self
+    {
+        if (!$this->cVvotes->contains($cVvote)) {
+            $this->cVvotes[] = $cVvote;
+            $cVvote->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCVvote(CVvote $cVvote): self
+    {
+        if ($this->cVvotes->contains($cVvote)) {
+            $this->cVvotes->removeElement($cVvote);
+            // set the owning side to null (unless already changed)
+            if ($cVvote->getUser() === $this) {
+                $cVvote->setUser(null);
             }
         }
 

@@ -2,31 +2,25 @@
 
 namespace App\Repository;
 
-use App\Entity\CV;
+use App\Entity\CVvote;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
- * @method CV|null find($id, $lockMode = null, $lockVersion = null)
- * @method CV|null findOneBy(array $criteria, array $orderBy = null)
- * @method CV[]    findAll()
- * @method CV[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method CVvote|null find($id, $lockMode = null, $lockVersion = null)
+ * @method CVvote|null findOneBy(array $criteria, array $orderBy = null)
+ * @method CVvote[]    findAll()
+ * @method CVvote[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class CVRepository extends ServiceEntityRepository
+class CVvoteRepository extends ServiceEntityRepository
 {
     public function __construct(RegistryInterface $registry)
     {
-        parent::__construct($registry, CV::class);
+        parent::__construct($registry, CVvote::class);
     }
 
-    public function findPaginated()
-    {
-        return $this->createQueryBuilder('p')
-            ->orderBy('p.closed', 'ASC')
-            ->getQuery();
-    }
 //    /**
-//     * @return CV[] Returns an array of CV objects
+//     * @return CVvote[] Returns an array of CVvote objects
 //     */
     /*
     public function findByExampleField($value)
@@ -43,7 +37,7 @@ class CVRepository extends ServiceEntityRepository
     */
 
     /*
-    public function findOneBySomeField($value): ?CV
+    public function findOneBySomeField($value): ?CVvote
     {
         return $this->createQueryBuilder('c')
             ->andWhere('c.exampleField = :val')

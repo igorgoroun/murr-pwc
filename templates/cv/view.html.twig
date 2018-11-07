@@ -1,0 +1,84 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}{% trans %}CV list{% endtrans %} {{ parent() }}{% endblock %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-12">
+            <div class="float-right">
+                <span class="badge badge-pill">{{ cv.created|date('d/m/Y, H:i') }}</span>
+                {% if cv.accepted %}
+                    <span class="badge badge-success text-white">Принят</span>
+                {% elseif cv.declined %}
+                    <span class="badge badge-danger text-white">Отказ</span>
+                {% else %}
+                    <span class="badge badge-warning">В процессе</span>
+                {% endif %}
+                <span class="badge badge-success">{{ positive }}</span>
+                <span class="badge badge-danger">{{ negative }}</span>
+
+            </div>
+            <h1>{% trans %}CV{% endtrans %} <small>{{ cv.user.nickName }}</small></h1>
+            {% if cv.accepted and cv.user == app.user %}
+                <p class="lead text-success">Ваша заявка утверждена! Пожалуйста, обратитесь в игре к офицерам для принятия в клан.</p>
+            {% endif %}
+            <table class="table table-sm">
+                <tr>
+                    <td>{% trans %}Nickname{% endtrans %}</td>
+                    <td class="font-weight-bold">{{ cv.user.nickName }}</td>
+                </tr>
+                <tr>
+                    <td>{% trans %}Char class{% endtrans %} / {% trans %}Level{% endtrans %} / {% trans %}Side{% endtrans %}</td>
+                    <td class="font-weight-bold">{{ cv.charClass.name|trans }} / {{ cv.levelText }} / {{ cv.charSide.name|trans }}</td>
+                </tr>
+                <tr>
+                    <td>{% trans %}Real name{% endtrans %}, {% trans %}Age{% endtrans %}</td>
+                    <td class="font-weight-bold">{{ cv.user.realName }}, {{ cv.ageText|trans }}</td>
+                </tr>
+                <tr>
+                    <td>{% trans %}Country / City{% endtrans %}</td>
+                    <td class="font-weight-bold">{{ cv.region }}</td>
+                </tr>
+                <tr>
+                    <td>{% trans %}GVG Experience{% endtrans %}</td>
+                    <td>{% if cv.gvgExperience %}<i class="oi oi-check text-success"></i>{% else %}<i class="oi oi-x text-danger"></i>{% endif %}</td>
+                </tr>
+                <tr>
+                    <td>{% trans %}twins_help{% endtrans %}</td>
+                    <td class="font-weight-bold">{{ cv.twins }}</td>
+                </tr>
+                <tr>
+                    <td>{% trans %}previous_guilds_help{% endtrans %}</td>
+                    <td class="font-weight-bold">{{ cv.previousExits }}</td>
+                </tr>
+                <tr>
+                    <td>{% trans %}Reasons{% endtrans %}</td>
+                    <td class="font-weight-bold">{{ cv.ourReasons }}</td>
+                </tr>
+                <tr>
+                    <td>{% trans %}Guarantors{% endtrans %}</td>
+                    <td class="font-weight-bold">{{ cv.guarantors }}</td>
+                </tr>
+                <tr>
+                    <td class="text-right text-muted pt-3">
+                        {% if is_granted('ROLE_GENERAL') and positive+negative > 0 %}
+                            <a href="{{ path('cv_final_decline', {'id': cv.id}) }}" class="btn btn-danger">{% trans %}Закрыть и отклонить{% endtrans %}</a>
+                            <a href="{{ path('cv_final_accept', {'id': cv.id}) }}" class="btn btn-success">{% trans %}Закрыть и утвердить{% endtrans %}</a>
+                        {% endif %}
+                    </td>
+                    <td class="pt-3">
+                        {% if is_granted('ROLE_USER') and not voted and not is_granted('ROLE_GENERAL') %}
+                        <a href="{{ path('cv_accept', {'id': cv.id}) }}" class="btn btn-success">{% trans %}Accept{% endtrans %}</a>
+                        <a href="{{ path('cv_decline', {'id': cv.id}) }}" class="btn btn-danger">{% trans %}Decline{% endtrans %}</a>
+                        {% endif %}
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+{% endblock %}
+
+
+{% block javascripts %}
+{{ parent() }}
+{% endblock %}

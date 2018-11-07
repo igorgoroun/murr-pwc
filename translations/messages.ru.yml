@@ -56,3 +56,27 @@ Dark: Тьма
 Light: Свет
 Side: Сторона
 No side: Нет стороны
+# application
+Age: Возраст
+Less than 18: Менее 18 лет
+From 18 to 29: От 18 до 29 лет
+30 and more: Совсем старикан
+Country / City: Страна / город
+Twins: Твины
+twins_help: Другие персонажи на сервере и кланы, в которых они состоят
+GVG Experience: У меня есть опыт на ГВГ
+Previous guilds: Предыдущие кланы
+previous_guilds_help: В каких кланах Вы были до нас, и почему ушли
+Reasons: Причины вступления
+Guarantors: Гаранты
+guarantors_help: Укажите Ваших гарантов, которые состоят у нас в клане и могут вас рекомендовать
+Confirm Statement: Я читал и принимаю Устав Клана
+Application send for approvement: Заявка отправлена на рассмотрение
+You are already have processing application: У Вас уже есть активная заявка
+CV list: Заявки в клан
+CV: Заявка
+Char level: Уровень персонажа
+Level: Уровень
+Accept: Принять
+Decline: Отказать
+

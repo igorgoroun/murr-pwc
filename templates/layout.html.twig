@@ -45,11 +45,9 @@
             <li class="nav-item {% if app.request.attributes.get('_route') matches '/^(forum.*)/' %}active{% endif %}">
                 <a class="nav-link" href="{{ path('forum') }}">Форум</a>
             </li>
-            <!--
-            <li class="nav-item">
-                <a class="nav-link" href="#">Прием</a>
+            <li class="nav-item {% if app.request.attributes.get('_route') matches '/^(cv.*)/' %}active{% endif %}">
+                <a class="nav-link" href="{{ path('cv_apply') }}">Прием</a>
             </li>
-            -->
             {{ render(controller('App\\Controller\\PageController::listMenu', {'request': app.request})) }}
         </ul>
         <ul class="navbar-nav mr-2">
@@ -104,26 +102,7 @@
 {% block body %}
     <div class="row">
         <div class="col-12">
-            <h1>Hello, world!</h1>
-            <p>als dksdjhf kasdhf lkasd fksad</p>
-            <p>als dksdjhf kasdhf lkasd fksad</p>
-            <p>als dksdjhf kasdhf lkasd fksad</p>
-            <p>als dksdjhf kasdhf lkasd fksad</p>
-            <p>als dksdjhf kasdhf lkasd fksad</p>
-            <p>als dksdjhf kasdhf lkasd fksad</p>
-            <p>als dksdjhf kasdhf lkasd fksad</p>
-            <p>als dksdjhf kasdhf lkasd fksad</p>
-            <p>als dksdjhf kasdhf lkasd fksad</p>
-            <p>als dksdjhf kasdhf lkasd fksad</p>
-            <p>als dksdjhf kasdhf lkasd fksad</p>
-            <p>als dksdjhf kasdhf lkasd fksad</p>
-            <p>als dksdjhf kasdhf lkasd fksad</p>
-            <p>als dksdjhf kasdhf lkasd fksad</p>
-            <p>als dksdjhf kasdhf lkasd fksad</p>
-            <p>als dksdjhf kasdhf lkasd fksad</p>
-            <p>als dksdjhf kasdhf lkasd fksad</p>
-            <p>als dksdjhf kasdhf lkasd fksad</p>
-            <p>als dksdjhf kasdhf lkasd fksad</p>
+
         </div>
     </div>
 {% endblock %}
