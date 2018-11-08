@@ -33,7 +33,11 @@ class CVController extends AbstractController
         $em = $this->getDoctrine()->getManager();
         $cv->setAccepted($accepted);
         $cv->setClosed(true);
+        $user = $cv->getUser();
+        $user->setCharClass($cv->getCharClass());
+        $user->setCharSide($cv->getCharSide());
         $em->persist($cv);
+        $em->persist($user);
         $em->flush();
         $this->addFlash('success', "Заявка закрыта");
         return $this->redirectToRoute('cv_list');

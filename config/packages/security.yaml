@@ -61,6 +61,9 @@ security:
         - { path: ^/cv/modify, roles: ROLE_GUEST }
         - { path: ^/cv/vote, roles: ROLE_USER }
         - { path: ^/cv, roles: ROLE_GUEST }
+        - { path: ^/gvg/create, roles: ROLE_GENERAL }
+        - { path: ^/gvg/modify, roles: ROLE_GENERAL }
+        - { path: ^/gvg, roles: ROLE_USER }
         - { path: ^/forum/create, roles: ROLE_EDITOR }
         - { path: ^/forum/modify, roles: ROLE_EDITOR }
         - { path: ^/forum/dir/create, roles: ROLE_EDITOR }

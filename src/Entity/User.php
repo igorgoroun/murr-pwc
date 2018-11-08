@@ -76,12 +76,24 @@ class User implements UserInterface
      */
     private $cVvotes;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\GVGPresence", mappedBy="user", orphanRemoval=true)
+     */
+    private $gVGPresences;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\GVGParty", mappedBy="chars")
+     */
+    private $gVGParties;
+
     public function __construct()
     {
         $this->CVs = new ArrayCollection();
         $this->forumTopics = new ArrayCollection();
         $this->forumPosts = new ArrayCollection();
         $this->cVvotes = new ArrayCollection();
+        $this->gVGPresences = new ArrayCollection();
+        $this->gVGParties = new ArrayCollection();
     }
 
     /**
@@ -322,6 +334,65 @@ class User implements UserInterface
             if ($cVvote->getUser() === $this) {
                 $cVvote->setUser(null);
             }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|GVGPresence[]
+     */
+    public function getGVGPresences(): Collection
+    {
+        return $this->gVGPresences;
+    }
+
+    public function addGVGPresence(GVGPresence $gVGPresence): self
+    {
+        if (!$this->gVGPresences->contains($gVGPresence)) {
+            $this->gVGPresences[] = $gVGPresence;
+            $gVGPresence->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeGVGPresence(GVGPresence $gVGPresence): self
+    {
+        if ($this->gVGPresences->contains($gVGPresence)) {
+            $this->gVGPresences->removeElement($gVGPresence);
+            // set the owning side to null (unless already changed)
+            if ($gVGPresence->getUser() === $this) {
+                $gVGPresence->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|GVGParty[]
+     */
+    public function getGVGParties(): Collection
+    {
+        return $this->gVGParties;
+    }
+
+    public function addGVGParty(GVGParty $gVGParty): self
+    {
+        if (!$this->gVGParties->contains($gVGParty)) {
+            $this->gVGParties[] = $gVGParty;
+            $gVGParty->addChar($this);
+        }
+
+        return $this;
+    }
+
+    public function removeGVGParty(GVGParty $gVGParty): self
+    {
+        if ($this->gVGParties->contains($gVGParty)) {
+            $this->gVGParties->removeElement($gVGParty);
+            $gVGParty->removeChar($this);
         }
 
         return $this;

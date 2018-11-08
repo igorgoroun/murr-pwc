@@ -24,7 +24,7 @@
                     <th scope="row"><a href="{{ path('cv_view', {'id': cv.id}) }}">{{ cv.user.nickName }}</a></th>
                     <td>{{ cv.charClass.name|trans }}</td>
                     <td>{{ cv.charSide.name|trans }}</td>
-                    <td>{{ cv.level }}</td>
+                    <td>{{ cv.leveltext }}</td>
                     <td>{{ cv.user.realName }}</td>
                     <td>
                         {% if cv.accepted %}

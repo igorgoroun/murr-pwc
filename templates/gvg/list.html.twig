@@ -1,0 +1,50 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}{% trans %}Upcoming GVG{% endtrans %} {{ parent() }}{% endblock %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-12">
+            <div class="float-right">
+                <a href="{{ path('gvg_create') }}" class="btn btn-sm btn-outline-success"><i class="oi oi-plus"></i> Новое ГВГ</a>
+            </div>
+
+            <h1 class="mb-4">{% trans %}Upcoming GVG{% endtrans %}</h1>
+
+            {% if upcoming %}
+            <div class="row">
+                {% for gvg in upcoming %}
+                <div class="col-12 col-md-6 col-lg-6 col-xl-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ gvg.enemy }} {% if gvg.territory %}<small class="text-muted">{{ gvg.territory }}</small>{% endif %}</h5>
+                            <p class="card-text">{{ gvg.date|date('l')|trans }}, {{ gvg.date|date('d/m/Y') }}, {{ gvg.time|date('H:i') }}</p>
+                            <p class="card-text text-muted">{{ gvg.hint }}</p>
+                            {% if gvg.id in voted %}
+                                <span class="badge badge-dark">Уже подтверждено</span>
+                                <a href="#" class="btn btn-link">Список пати</a>
+                            {% else %}
+                            <a href="{{ path('gvg_confirm', {'id': gvg.id}) }}" class="btn btn-success">{% trans %}I will{% endtrans %}</a>
+                            <a href="{{ path('gvg_decline', {'id': gvg.id}) }}" class="btn btn-danger">{% trans %}I will not{% endtrans %}</a>
+                            {% endif %}
+                        </div>
+                        {% if is_granted('ROLE_GENERAL') %}
+                        <div class="card-footer text-right">
+                            <div class="btn-group" role="group">
+                                <a href="{{ path('gvg_modify', {'id': gvg.id}) }}" class="btn btn-sm"><i class="oi oi-pencil"></i></a>
+                            </div>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}
+
+
+{% block javascripts %}
+    {{ parent() }}
+{% endblock %}

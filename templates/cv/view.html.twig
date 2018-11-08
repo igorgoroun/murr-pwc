@@ -61,7 +61,7 @@
                 </tr>
                 <tr>
                     <td class="text-right text-muted pt-3">
-                        {% if is_granted('ROLE_GENERAL') and positive+negative > 0 %}
+                        {% if is_granted('ROLE_GENERAL') %}
                             <a href="{{ path('cv_final_decline', {'id': cv.id}) }}" class="btn btn-danger">{% trans %}Закрыть и отклонить{% endtrans %}</a>
                             <a href="{{ path('cv_final_accept', {'id': cv.id}) }}" class="btn btn-success">{% trans %}Закрыть и утвердить{% endtrans %}</a>
                         {% endif %}
