@@ -19,13 +19,16 @@ class UserController extends AbstractController
     /**
      * @Route("/user/profile", name="user_profile")
      */
-    public function profile(Request $request) {
+    public function profile(Request $request, UserPasswordEncoderInterface $encoder) {
         $user = $this->getUser();
 
         $form = $this->createForm(UserProfileType::class, $user);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
+            if ($form->getData()->getPassword() != null) {
+                $user->setPassword($encoder->encodePassword($user, $user->getPassword()));
+            }
             $em->persist($user);
             $em->flush();
             return $this->redirectToRoute('homepage');
@@ -39,7 +42,7 @@ class UserController extends AbstractController
     /**
      * @Route("/user/modify/{id}", name="user_modify", requirements={"id"="\d+"})
      */
-    public function modify(User $user, Request $request) {
+    public function modify(User $user, Request $request, UserPasswordEncoderInterface $encoder) {
         if (!$user) {
             return $this->redirectToRoute('user_list');
         }
@@ -47,6 +50,9 @@ class UserController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
+            if ($form->getData()->getPassword() != null) {
+                $user->setPassword($encoder->encodePassword($user, $user->getPassword()));
+            }
             $em->persist($user);
             $em->flush();
             return $this->redirectToRoute('user_list');
