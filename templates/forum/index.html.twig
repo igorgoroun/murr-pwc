@@ -34,7 +34,7 @@
                         <td><small>
                              {% if dir.latestPost is defined and dir.latestPost %}
                                 {% trans %}Topic{% endtrans %}: <a href="{{ path('forum_topic', {'id': dir.latestPost.topic.id}) }}">{{ dir.latestPost.topic.heading }}</a><br>
-                                 <span class="text-muted">Snake, {{ dir.latestPost.created|date('d/m/Y, H:i') }}</span>
+                                 <span class="text-muted">{{ dir.latestPost.user.nickName }}, {{ dir.latestPost.created|date('d/m/Y, H:i') }}</span>
                              {% endif %}
                             </small>
                         </td>
