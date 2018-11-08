@@ -27,7 +27,7 @@
                     <td>{% if user.charClass %}{{ user.charClass.name|trans }}{% endif %}</td>
                     <td>{% if user.charSide %}{{ user.charSide.name|trans }}{% endif %}</td>
                     <td>{{ user.userRole.name|trans }}</td>
-                    <td class="text-right"><a href="{{ path('user_modify', {'id': user.id}) }}"><i class="oi oi-pencil"></i></a></td>
+                    <td class="text-right"><a href="{{ path('user_modify', {'id': user.id}) }}"><i class="oi oi-pencil"></i> {% trans %}edit{% endtrans %}</a></td>
                 </tr>
                 {% endfor %}
                 </tbody>
