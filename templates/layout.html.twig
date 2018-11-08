@@ -114,6 +114,58 @@
 <script src="{{ asset('bundles/alexandermatveevpopper/popper.min.js') }}" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
 <script src="{{ asset('bootstrap/js/bootstrap.min.js') }}" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
 <script src='https://www.google.com/recaptcha/api.js'></script>
+<script>
+    // makes the parallax elements
+    //data-type="background" data-speed="2"
+    /*
+    function parallaxIt() {
+
+        // create variables
+        var $fwindow = $(window);
+        var scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+
+        // on window scroll event
+        $fwindow.on('scroll resize', function() {
+            scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+        });
+
+        // for each of content parallax element
+        $('[data-type="content"]').each(function (index, e) {
+            var $contentObj = $(this);
+            var fgOffset = parseInt($contentObj.offset().top);
+            var yPos;
+            var speed = ($contentObj.data('speed') || 1 );
+
+            $fwindow.on('scroll resize', function (){
+                yPos = fgOffset - scrollTop / speed;
+
+                $contentObj.css('top', yPos);
+            });
+        });
+
+        // for each of background parallax element
+        $('[data-type="background"]').each(function(){
+            var $backgroundObj = $(this);
+            var bgOffset = parseInt($backgroundObj.offset().top);
+            var yPos;
+            var coords;
+            var speed = ($backgroundObj.data('speed') || 0 );
+
+            $fwindow.on('scroll resize', function() {
+                yPos = - ((scrollTop - bgOffset) / speed);
+                coords = '40% '+ yPos + 'px';
+
+                $backgroundObj.css({ backgroundPosition: coords });
+            });
+        });
+
+        // triggers winodw scroll for refresh
+        $fwindow.trigger('scroll');
+    };
+
+    parallaxIt();
+    */
+</script>
 {% endblock %}
 </body>
 </html>

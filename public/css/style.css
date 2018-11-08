@@ -3,6 +3,13 @@
     font-family: 'Roboto', sans-serif;
     font-weight: 400;
 }
+
+body {
+/*    background-image: url("/gfx/macrocat.png");
+    -webkit-background-size: 100%;
+    background-size: 100%;
+    */
+}
 h1, h2, h3, h4, h1 small, h2 small, h3 small, h4 small {
     font-family: 'Oranienbaum', serif;
 }
@@ -28,6 +35,9 @@ a, .btn-link {
     color: #1e7e34;
 }
 
+.container.bg-black-80 {
+    background-color: rgba(0,0,0,0.8);
+}
 .breadcrumb {
     background-color: transparent;
     margin-bottom: 0px;
