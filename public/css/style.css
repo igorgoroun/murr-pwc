@@ -135,6 +135,10 @@ blockquote em::before {
     background-color: #fff;
 }
 
+.post-content img {
+    max-width: 100%;
+}
+
 .CodeMirror, .CodeMirror-scroll {
     min-height: 150px!important;
 }
