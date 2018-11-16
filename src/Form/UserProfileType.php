@@ -50,7 +50,8 @@ class UserProfileType extends AbstractType
                 'label' => 'Subscription',
                 'attr' => [
                     'rows' => 4
-                ]
+                ],
+                'help' => "Можно использовать разметку Markdown"
             ])
             ->add('save', SubmitType::class, ['label' => 'Save', 'attr' => ['class' => 'btn-primary']])
         ;
