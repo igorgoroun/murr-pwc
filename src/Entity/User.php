@@ -86,6 +86,16 @@ class User implements UserInterface
      */
     private $gVGParties;
 
+    /**
+     * @ORM\Column(type="text", nullable=true, length=128)
+     */
+    private $subscription;
+
+    /**
+     * @ORM\Column(type="string", length=32, nullable=true)
+     */
+    private $plainPassword;
+
     public function __construct()
     {
         $this->CVs = new ArrayCollection();
@@ -394,6 +404,30 @@ class User implements UserInterface
             $this->gVGParties->removeElement($gVGParty);
             $gVGParty->removeChar($this);
         }
+
+        return $this;
+    }
+
+    public function getSubscription(): ?string
+    {
+        return $this->subscription;
+    }
+
+    public function setSubscription(?string $subscription): self
+    {
+        $this->subscription = $subscription;
+
+        return $this;
+    }
+
+    public function getPlainPassword(): ?string
+    {
+        return $this->plainPassword;
+    }
+
+    public function setPlainPassword(?string $plainPassword): self
+    {
+        $this->plainPassword = $plainPassword;
 
         return $this;
     }

@@ -1,6 +1,6 @@
 {% extends 'layout.html.twig' %}
 
-{% block title %}Log in!{% endblock %}
+{% block title %}{% trans %}Profile{% endtrans %}{% endblock %}
 
 {% block body %}
     <div class="row">
@@ -10,8 +10,10 @@
             {{ form_row(form.realName) }}
             {{ form_row(form.nickName) }}
             {{ form_row(form.email) }}
+            {{ form_row(form.plainPassword) }}
             {{ form_row(form.charClass) }}
             {{ form_row(form.charSide) }}
+            {{ form_row(form.subscription) }}
             {{ form_end(form) }}
         </div>
     </div>

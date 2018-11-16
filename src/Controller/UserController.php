@@ -20,18 +20,19 @@ class UserController extends AbstractController
      * @Route("/user/profile", name="user_profile")
      */
     public function profile(Request $request, UserPasswordEncoderInterface $encoder) {
-        $user = $this->getUser();
+        $user = $profile = $this->getUser();
 
         $form = $this->createForm(UserProfileType::class, $user);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            if ($form->getData()->getPassword() != null) {
-                $user->setPassword($encoder->encodePassword($user, $user->getPassword()));
+            if ($form->getData()->getPlainPassword() != null) {
+                $user->setPassword($encoder->encodePassword($user, $form->getData()->getPlainPassword()));
             }
             $em->persist($user);
             $em->flush();
-            return $this->redirectToRoute('homepage');
+            $this->addFlash('success', "Profile updated.");
+            return $this->redirectToRoute('user_profile');
         }
 
         return $this->render('user/profile.html.twig', [
@@ -50,8 +51,8 @@ class UserController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            if ($form->getData()->getPassword() != null) {
-                $user->setPassword($encoder->encodePassword($user, $user->getPassword()));
+            if ($form->getData()->getPlainPassword() != null) {
+                $user->setPassword($encoder->encodePassword($user, $form->getData()->getPlainPassword()));
             }
             $em->persist($user);
             $em->flush();

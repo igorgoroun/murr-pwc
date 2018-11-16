@@ -20,9 +20,10 @@ class UserType extends AbstractType
             ->add('nickName')
             ->add('userRole', EntityType::class, [
                 'class' => UserGroup::class,
-                'choice_label' => 'name'
+                'choice_label' => 'name',
+                'choice_translation_domain' => 'messages',
             ])
-            ->add('password', PasswordType::class, ['required' => false, 'label' => false, 'attr' => ['placeholder' => 'Password'], 'help' => "Заполняйте поле пароля только если Вы хотите ИЗМЕНИТЬ ТЕКУЩИЙ ПАРОЛЬ"])
+            ->add('plainPassword', PasswordType::class, ['required' => false, 'label' => false, 'attr' => ['placeholder' => 'Password'], 'help' => "Заполняйте поле пароля только если Вы хотите ИЗМЕНИТЬ ТЕКУЩИЙ ПАРОЛЬ"])
             ->add('save', SubmitType::class, ['label' => 'Save', 'attr' => ['class' => 'btn-primary']])
         ;
     }

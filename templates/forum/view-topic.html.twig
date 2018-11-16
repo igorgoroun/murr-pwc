@@ -26,19 +26,27 @@
             <input type="hidden" id="postText_{{ post.id }}" value="{{ post.body|striptags }}">
             {{ post.body|striptags|markdown }}
 
-
+            <!-- modified badge -->
             {% if post.modified is defined and post.modified %}
                 <p class="text-right"><span class="badge badge-info">Modified by {{ post.user.nickname }}, {{ post.modified|date('d/m/Y, H:i') }}</span></p>
             {% endif %}
+
             <p>
-            <div class="btn-group btn-group-sm float-right" role="group">
-                {% if post.user == app.user or is_granted('ROLE_EDITOR') %}
-                    <a href="{{ path('forum_post_modify', {'id':post.id}) }}" class="text-right btn btn-outline-success font-weight-bold"><i class="oi oi-pencil"></i></a>
+                <!-- Subscription -->
+                {% if post.sign and post.user.subscription %}
+                <div class="text-muted text-sm-left float-left border-top pt-2">
+                    {{ post.user.subscription|striptags|markdown }}
+                </div>
                 {% endif %}
-                {% if is_granted(topic.access.role) %}
-                <a href="#" data-text="postText_{{ post.id }}" data-author="postAuthor_{{ post.id }}" class="quickReplyLink btn btn-outline-success "><i class="oi oi-reload"></i> {% trans %}Reply{% endtrans %}</a>
-                {% endif %}
-            </div>
+                <!-- buttons -->
+                <div class="btn-group btn-group-sm float-right" role="group">
+                    {% if post.user == app.user or is_granted('ROLE_EDITOR') %}
+                        <a href="{{ path('forum_post_modify', {'id':post.id}) }}" class="text-right btn btn-outline-success font-weight-bold"><i class="oi oi-pencil"></i></a>
+                    {% endif %}
+                    {% if is_granted(topic.access.role) %}
+                    <a href="#" data-text="postText_{{ post.id }}" data-author="postAuthor_{{ post.id }}" class="quickReplyLink btn btn-outline-success "><i class="oi oi-reload"></i> {% trans %}Reply{% endtrans %}</a>
+                    {% endif %}
+                </div>
             </p>
         </div>
     </div>

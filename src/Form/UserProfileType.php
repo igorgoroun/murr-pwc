@@ -10,6 +10,8 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -18,10 +20,16 @@ class UserProfileType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('realName')
-            ->add('nickName')
-            ->add('email')
-            ->add('password', PasswordType::class, [
+            ->add('realName', TextType::class, [
+                'label' => false,
+            ])
+            ->add('nickName', TextType::class, [
+                'label' => false,
+            ])
+            ->add('email', TextType::class, [
+                'label' => 'Profile'
+            ])
+            ->add('plainPassword', PasswordType::class, [
                 'required' => false,
                 'label' => false,
                 'attr' => ['placeholder' => 'Password'],
@@ -37,6 +45,12 @@ class UserProfileType extends AbstractType
                 'choice_label' => 'name',
                 'choice_translation_domain' => 'messages',
                 'label' => 'Side'
+            ])
+            ->add('subscription', TextareaType::class, [
+                'label' => 'Subscription',
+                'attr' => [
+                    'rows' => 4
+                ]
             ])
             ->add('save', SubmitType::class, ['label' => 'Save', 'attr' => ['class' => 'btn-primary']])
         ;
