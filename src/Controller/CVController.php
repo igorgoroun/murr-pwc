@@ -82,7 +82,7 @@ class CVController extends AbstractController
 
         // check user already voted this CV
         $vote_rep = $this->getDoctrine()->getRepository('App:CVvote');
-        $user_vote = $vote_rep->findOneBy(['user' => $this->getUser()]);
+        $user_vote = $vote_rep->findOneBy(['user' => $this->getUser(), 'cv' => $cv]);
 
         // count votes
         $positive = $vote_rep->count(['accepted' => true, 'cv' => $cv]);
