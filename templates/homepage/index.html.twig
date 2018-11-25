@@ -4,17 +4,82 @@
 
 {% block body %}
     <div class="row">
+        <!-- ABOUT block -->
         <div class="col-12 col-md-6">
-            <h1>О клане</h1>
-            <p>Основная цель клана Murr - создать сообщество взрослых игроков, которые спокойно реагирую на глупые вбросы в мире и способны сдерживаться при внутренних конфликтах.</p>
-            <p>Клан не ставит перед собой первичных доминаторских целей на сервере, но подразумевает развитие для ТВ, РБ и других PVP-эвентов.</p>
+            {% if is_granted('ROLE_EDITOR') %}
+                <a href="{{ path('homepage_modify_block', {'id':about.id,}) }}" class="float-right btn btn-sm btn-outline-success"><i class="oi oi-pencil"></i></a>
+            {% endif %}
+
+            {% if about is defined and about %}
+                {{ about.body|striptags|markdown }}
+            {% endif %}
         </div>
+        <!-- ACCEPTANCE RULES block -->
         <div class="col-12 col-md-6">
-            <h1>Прием в Murr</h1>
-            <p>Наша гильдия осуществляет прием игроков начиная с 30 уровня. Прием твинов - по особому согласованию.</p>
+            {% if is_granted('ROLE_EDITOR') %}
+                <a href="{{ path('homepage_modify_block', {'id':cv.id}) }}" class="float-right btn btn-sm btn-outline-success"><i class="oi oi-pencil"></i></a>
+            {% endif %}
+
+            {% if cv is defined and cv %}
+                {{ cv.body|striptags|markdown }}
+            {% endif %}
+
             <p>Для того, чтобы подать заявку в клан нужно <a href="{{ path('user_signup') }}">зарегистрироваться на сайте</a> или <a href="{{ path('app_login') }}">войти</a>, если у Вас уже есть аккаунт, а после заполнить форму заявки.</p>
             <p><a href="{{ path('cv_apply') }}" class="btn btn-success">Подать заявку в клан</a></p>
         </div>
+    </div>
+    <br>
+    <div class="row">
+        <!-- LATEST FORUM POSTS -->
+        {% if forum %}
+        <div class="col-12 col-md-6">
+            <h2>{% trans %}Forum{% endtrans %}</h2>
+            <table class="table table-sm">
+                <thead>
+                <tr>
+                    <th>{% trans %}Topic{% endtrans %}</th>
+                    <th>{% trans %}Directory{% endtrans %}</th>
+                    <th>{% trans %}Update{% endtrans %}</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for post in forum %}
+                    <tr>
+                        <th scope="row">
+                            <a href="{{ path('forum_topic', {'id': post.topic.id}) }}">{{ post.topic.heading }}</a>
+                            {% if post.topic.description is defined %}
+                                <p class="text-muted mb-0" style="font-size: 0.7rem;">{{ post.topic.description }}</p>
+                            {% endif %}
+                        </th>
+                        <td><small>{{ post.topic.directory.name }}</small></td>
+                        <td>
+                            <small>{{ post.created|date('d/m/Y, H:i') }}</small>
+                            <p class="text-muted mb-0" style="font-size: 0.7rem;">By: {{ post.user.nickName }}</p>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% endif %}
+        <!-- CURRENT ACTIVE CVs -->
+        {% if cvs %}
+        <div class="col-12 col-md-6">
+            <h2>{% trans %}CV list{% endtrans %}</h2>
+            {% for appl in cvs %}
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ appl.user.nickName }} <small class="text-muted">{{ appl.user.realName }}</small></h5>
+                        <h6 class="card-subtitle mb-2 text-muted">{{ appl.charClass.name|trans }} {{ appl.leveltext }} {% if appl.charSide %}/ {{ appl.charSide.name|trans }}{% endif %}</h6>
+                        <a href="{{ path('cv_view', {'id': appl.id}) }}" class="btn btn-sm btn-outline-success float-right">{% trans %}CV{% endtrans %}</a>
+                        <p class="card-text">{{ appl.ourReasons }}</p>
+                    </div>
+                </div>
+                <br>
+            {% endfor %}
+        </div>
+        {% endif %}
     </div>
 {% endblock %}
 
