@@ -24,12 +24,10 @@ class HomepageController extends AbstractController
         /* forum latest */
         $f_rep = $this->getDoctrine()->getRepository('App:ForumPost');
         $forum_posts = $f_rep->findBy([], ['modified' => 'DESC'], 5);
-        dump($forum_posts);
 
         /* active CVs */
         $cv_rep = $this->getDoctrine()->getRepository('App:CV');
         $cvs_active = $cv_rep->findBy(['closed' => false], ['created' => 'DESC'], 2);
-        dump($cvs_active);
 
         return $this->render('homepage/index.html.twig', [
             'controller_name' => 'HomepageController',
