@@ -26,9 +26,10 @@ class GVGRepository extends ServiceEntityRepository
 
     public function findUpcoming()
     {
+        $current_date = new \DateTime();
         return $this->createQueryBuilder('g')
             ->andWhere('g.date >= :date')
-            ->setParameter('date', new \DateTime())
+            ->setParameter('date', $current_date->format('Y-m-d'))
             ->orderBy('g.date', 'ASC')
             ->orderBy('g.time', 'ASC')
             ->getQuery()
