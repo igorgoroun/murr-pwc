@@ -14,7 +14,9 @@
                     <th scope="col">{{ 'Side'|trans }}</th>
                     <th scope="col">{{ 'GVG Presence'|trans }}</th>
                     <th scope="col">{{ 'GVG Party'|trans }}</th>
+                    {% if is_granted('ROLE_EDITOR') and parties %}
                     <th scope="col"></th>
+                    {% endif %}
                 </tr>
                 </thead>
                 <tbody>
@@ -23,22 +25,22 @@
                     <th scope="row">{{ pres.user.nickName }}</th>
                     <td>{% if pres.user.charClass %}{{ pres.user.charClass.name|trans }}{% endif %}</td>
                     <td>{% if pres.user.charSide %}{{ pres.user.charSide.name|trans }}{% endif %}</td>
-                    <td>{% if pres.promise %}<i class="oi oi-check text-success"></i>{% else %}<i class="oi oi-x text-danger"></i>{% endif %}</td>
+                    <td class="text-center">{% if pres.promise %}<i class="oi oi-check text-success"></i>{% else %}<i class="oi oi-x text-danger"></i>{% endif %}</td>
                     <td>{% if pres.party %}<div class="badge badge-dark">{{ pres.party.name }}</div>{% endif %}</td>
+                    {% if is_granted('ROLE_EDITOR') and parties %}
                     <td class="text-right">
-                        {% if is_granted('ROLE_EDITOR') and parties %}
-                            <div class="btn-group">
-                                <button type="button" class="btn btn-outline-success btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    {% trans %}GVG Party{% endtrans %}
-                                </button>
-                                <div class="dropdown-menu dropdown-menu-right">
-                                    {% for party in parties %}
-                                    <a href="{{ path('gvg_party_presence', {'party': party.id, 'presence': pres.id}) }}" class="dropdown-item" type="">{{ party.name }}</a>
-                                    {% endfor %}
-                                </div>
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-outline-success btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                {% trans %}GVG Party{% endtrans %}
+                            </button>
+                            <div class="dropdown-menu dropdown-menu-right">
+                                {% for party in parties %}
+                                <a href="{{ path('gvg_party_presence', {'party': party.id, 'presence': pres.id}) }}" class="dropdown-item" type="">{{ party.name }}</a>
+                                {% endfor %}
                             </div>
-                        {% endif %}
+                        </div>
                     </td>
+                    {% endif %}
                 </tr>
                 {% endfor %}
                 </tbody>
