@@ -1,0 +1,20 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}{% trans %}GVG Party{% endtrans %} parent() {% endblock %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-12">
+            <h1>{% trans %}GVG Party{% endtrans %}</h1>
+            {{ form_start(form) }}
+            {{ form_row(form.name) }}
+            {{ form_end(form) }}
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block javascripts %}
+{{ parent() }}
+
+{% endblock %}

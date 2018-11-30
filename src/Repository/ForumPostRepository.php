@@ -6,6 +6,7 @@ use App\Entity\ForumDirectory;
 use App\Entity\ForumPost;
 use App\Entity\ForumTopic;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
@@ -42,6 +43,26 @@ class ForumPostRepository extends ServiceEntityRepository
             ;
     }
 
+    public function findLatestForHome(int $qty = 5)
+    {
+        $posts = new ArrayCollection();
+        $topics = $this->getEntityManager()->getRepository('App:ForumTopic')->findLatestForHome($qty);
+
+        foreach ($topics as $topic) {
+            $post = $this->createQueryBuilder('p')
+                ->where('p.topic = :topic')
+                ->orderBy('p.modified', 'DESC')
+                ->orderBy('p.created', 'DESC')
+                ->setMaxResults(1)
+                ->setParameter('topic', $topic)
+                ->getQuery()->getOneOrNullResult();
+            if ($post) {
+                $posts->add($post);
+            }
+        }
+
+        return $posts;
+    }
 
 //    /**
 //     * @return ForumPost[] Returns an array of ForumPost objects

@@ -3,7 +3,9 @@
 namespace App\Controller;
 
 use App\Entity\GVG;
+use App\Entity\GVGParty;
 use App\Entity\GVGPresence;
+use App\Form\GVGPartyType;
 use App\Form\GVGType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -11,15 +13,89 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class GVGController extends AbstractController
 {
+
+    /**
+     * @Route("/gvg/party/presence/{party}/{presence}", name="gvg_party_presence", requirements={"party"="\d+","presence"="\d+"})
+     */
+    public function setPartyToPresence(GVGParty $party, GVGPresence $presence) {
+        $this->denyAccessUnlessGranted('ROLE_EDITOR');
+        if (!$party or !$presence) {
+            $this->addFlash("danger", "Invalid party/presence requested");
+            return $this->redirectToRoute('gvg_upcoming');
+        }
+
+        $presence->setParty($party);
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($presence);
+        $em->flush();
+
+        return $this->redirectToRoute('gvg_presence', ['id' => $presence->getGvg()->getId()]);
+    }
+
+    /**
+     * @Route("/gvg/party/modify/{id}", name="gvg_party_modify", requirements={"id"="\d+"})
+     */
+    public function modifyParty(GVGParty $party, Request $request) {
+        if (!$party) {
+            $this->addFlash("danger", "Invalid party requested");
+            return $this->redirectToRoute('gvg_party_list');
+        }
+
+        $form = $this->createForm(GVGPartyType::class, $party);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($party);
+            $em->flush();
+            return $this->redirectToRoute('gvg_party_list');
+        }
+
+        return $this->render("gvg/form-party.html.twig", [
+            'form' => $form->createView()
+        ]);
+    }
+
+    /**
+     * @Route("/gvg/party/create", name="gvg_party_create")
+     */
+    public function createParty(Request $request) {
+        $party = new GVGParty();
+
+        $form = $this->createForm(GVGPartyType::class, $party);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($party);
+            $em->flush();
+            return $this->redirectToRoute('gvg_party_list');
+        }
+
+        return $this->render("gvg/form-party.html.twig", [
+            'form' => $form->createView()
+        ]);
+    }
+
+    /**
+     * @Route("/gvg/parties", name="gvg_party_list")
+     */
+    public function listPartyTemplates() {
+        $tpls = $this->getDoctrine()->getRepository('App:GVGParty')->findBy([], ['name'=>'ASC']);
+        return $this->render('gvg/list-templates.html.twig', [
+            'templates' => $tpls
+        ]);
+    }
+
     /**
      * @Route("/gvg/presence/{id}", name="gvg_presence", requirements={"id"="\d+"})
      */
     public function listPresence(GVG $gvg) {
         $this->denyAccessUnlessGranted('ROLE_USER');
         $presences = $gvg->getPresences();
+        $parties = $this->getDoctrine()->getRepository('App:GVGParty')->findBy([], ['name'=>'ASC']);
         return $this->render('gvg/list-presence.html.twig', [
             'gvg' => $gvg,
-            'presences' => $presences
+            'presences' => $presences,
+            'parties' => $parties
         ]);
     }
 
@@ -58,7 +134,7 @@ class GVGController extends AbstractController
     public function modify(GVG $gvg, Request $request) {
         if (!$gvg) {
             $this->addFlash("danger", "Invalid GVG requested");
-            return $this->redirectToRoute('forum');
+            return $this->redirectToRoute('gvg_upcoming');
         }
 
         $form = $this->createForm(GVGType::class, $gvg);

@@ -44,11 +44,6 @@ class GVG
     private $presences;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\GVGParty", mappedBy="gvg", orphanRemoval=true)
-     */
-    private $parties;
-
-    /**
      * @ORM\Column(type="text", nullable=true)
      */
     private $hint;
@@ -56,7 +51,6 @@ class GVG
     public function __construct()
     {
         $this->presences = new ArrayCollection();
-        $this->parties = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -143,36 +137,6 @@ class GVG
         return $this;
     }
 
-    /**
-     * @return Collection|GVGParty[]
-     */
-    public function getParties(): Collection
-    {
-        return $this->parties;
-    }
-
-    public function addParty(GVGParty $party): self
-    {
-        if (!$this->parties->contains($party)) {
-            $this->parties[] = $party;
-            $party->setGvg($this);
-        }
-
-        return $this;
-    }
-
-    public function removeParty(GVGParty $party): self
-    {
-        if ($this->parties->contains($party)) {
-            $this->parties->removeElement($party);
-            // set the owning side to null (unless already changed)
-            if ($party->getGvg() === $this) {
-                $party->setGvg(null);
-            }
-        }
-
-        return $this;
-    }
 
     public function getHint(): ?string
     {

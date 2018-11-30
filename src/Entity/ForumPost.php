@@ -59,6 +59,11 @@ class ForumPost
      */
     private $modified;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\User")
+     */
+    private $modifiedUser;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -156,6 +161,18 @@ class ForumPost
     public function setModified(?\DateTimeInterface $modified): self
     {
         $this->modified = $modified;
+
+        return $this;
+    }
+
+    public function getModifiedUser(): ?User
+    {
+        return $this->modifiedUser;
+    }
+
+    public function setModifiedUser(?User $modifiedUser): self
+    {
+        $this->modifiedUser = $modifiedUser;
 
         return $this;
     }

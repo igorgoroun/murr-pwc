@@ -24,29 +24,13 @@ class GVGParty
     private $name;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\User", inversedBy="gVGParties")
+     * @ORM\OneToMany(targetEntity="App\Entity\GVGPresence", mappedBy="party")
      */
-    private $chars;
-
-    /**
-     * @ORM\Column(type="boolean")
-     */
-    private $promise = false;
-
-    /**
-     * @ORM\Column(type="boolean", nullable=true)
-     */
-    private $was = false;
-
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\GVG", inversedBy="parties")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $gvg;
+    private $presences;
 
     public function __construct()
     {
-        $this->chars = new ArrayCollection();
+        $this->presences = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -66,64 +50,34 @@ class GVGParty
         return $this;
     }
 
+
     /**
-     * @return Collection|User[]
+     * @return Collection|GVGPresence[]
      */
-    public function getChars(): Collection
+    public function getPresences(): Collection
     {
-        return $this->chars;
+        return $this->presences;
     }
 
-    public function addChar(User $char): self
+    public function addPresence(GVGPresence $presence): self
     {
-        if (!$this->chars->contains($char)) {
-            $this->chars[] = $char;
+        if (!$this->presences->contains($presence)) {
+            $this->presences[] = $presence;
+            $presence->setParty($this);
         }
 
         return $this;
     }
 
-    public function removeChar(User $char): self
+    public function removePresence(GVGPresence $presence): self
     {
-        if ($this->chars->contains($char)) {
-            $this->chars->removeElement($char);
+        if ($this->presences->contains($presence)) {
+            $this->presences->removeElement($presence);
+            // set the owning side to null (unless already changed)
+            if ($presence->getParty() === $this) {
+                $presence->setParty(null);
+            }
         }
-
-        return $this;
-    }
-
-    public function getPromise(): ?bool
-    {
-        return $this->promise;
-    }
-
-    public function setPromise(bool $promise): self
-    {
-        $this->promise = $promise;
-
-        return $this;
-    }
-
-    public function getWas(): ?bool
-    {
-        return $this->was;
-    }
-
-    public function setWas(?bool $was): self
-    {
-        $this->was = $was;
-
-        return $this;
-    }
-
-    public function getGvg(): ?GVG
-    {
-        return $this->gvg;
-    }
-
-    public function setGvg(?GVG $gvg): self
-    {
-        $this->gvg = $gvg;
 
         return $this;
     }

@@ -33,6 +33,11 @@ class GVGPresence
      */
     private $gvg;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\GVGParty", inversedBy="presences")
+     */
+    private $party;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -70,6 +75,18 @@ class GVGPresence
     public function setGvg(?GVG $gvg): self
     {
         $this->gvg = $gvg;
+
+        return $this;
+    }
+
+    public function getParty(): ?GVGParty
+    {
+        return $this->party;
+    }
+
+    public function setParty(?GVGParty $party): self
+    {
+        $this->party = $party;
 
         return $this;
     }

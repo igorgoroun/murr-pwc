@@ -19,6 +19,14 @@ class ForumTopicRepository extends ServiceEntityRepository
         parent::__construct($registry, ForumTopic::class);
     }
 
+    public function findLatestForHome(int $qty = 5)
+    {
+        return $this->createQueryBuilder('p')
+            ->distinct('p')
+            ->orderBy('p.modified', 'DESC')
+            ->setMaxResults($qty)
+            ->getQuery()->getResult();
+    }
 //    /**
 //     * @return ForumTopic[] Returns an array of ForumTopic objects
 //     */

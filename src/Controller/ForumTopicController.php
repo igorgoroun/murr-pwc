@@ -73,6 +73,7 @@ class ForumTopicController extends AbstractController
         $topic->setDirectory($directory);
         $topic->setUser($this->getUser());
         $topic->setCreated(new \DateTime());
+        $topic->setModified(new \DateTime());
         $topic->setAccess($directory->getAccess());
 
         $form = $this->createForm(ForumTopicType::class, $topic);

@@ -35,8 +35,12 @@ class ForumPostController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $post->setModified(new \DateTime());
+            $post->setModifiedUser($this->getUser());
             $em = $this->getDoctrine()->getManager();
             $em->persist($post);
+            $topic = $post->getTopic();
+            $topic->setModified(new \DateTime());
+            $em->persist($topic);
             $em->flush();
             return $this->redirectToRoute('forum_topic', ['id' => $post->getTopic()->getId()]);
         }
@@ -70,6 +74,8 @@ class ForumPostController extends AbstractController
         if (($form->isSubmitted() && $form->isValid()) || ($form_quick->isSubmitted() && $form_quick->isValid())) {
             $em = $this->getDoctrine()->getManager();
             $em->persist($post);
+            $topic->setModified(new \DateTime());
+            $em->persist($topic);
             $em->flush();
             return $this->redirectToRoute('forum_topic', ['id' => $topic->getId()]);
         }

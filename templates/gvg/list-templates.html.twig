@@ -1,0 +1,34 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}{% trans %}Party templates{% endtrans %} {{ parent() }}{% endblock %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-12">
+            <h1> Parties <small><a href="{{ path('gvg_party_create') }}"><i class="oi oi-plus"></i></a></small></h1>
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th scope="col">Name</th>
+                    <th scope="col"></th>
+                </tr>
+                </thead>
+                {% if templates is defined %}
+                <tbody>
+                {% for party in templates %}
+                <tr>
+                    <th scope="row">{{ party.name }}</th>
+                    <td class="text-right"><a href="{{ path('gvg_party_modify', {'id': party.id}) }}"><i class="oi oi-pencil"></i></a></td>
+                </tr>
+                {% endfor %}
+                </tbody>
+                {% endif %}
+            </table>
+        </div>
+    </div>
+{% endblock %}
+
+
+{% block javascripts %}
+{{ parent() }}
+{% endblock %}

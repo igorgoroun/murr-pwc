@@ -24,7 +24,8 @@ class HomepageController extends AbstractController
 
         /* forum latest */
         $f_rep = $this->getDoctrine()->getRepository('App:ForumPost');
-        $forum_posts = $f_rep->findBy([], ['created' => 'DESC', 'modified' => 'DESC'], 5);
+        //$forum_posts = $f_rep->findBy([], ['created' => 'DESC', 'modified' => 'DESC'], 5);
+        $forum_posts = $f_rep->findLatestForHome(5);
 
         /* active CVs */
         $cv_rep = $this->getDoctrine()->getRepository('App:CV');
