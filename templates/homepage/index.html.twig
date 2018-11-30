@@ -3,6 +3,30 @@
 {% block title %}{% trans %}Guild{% endtrans %} Murr {{ parent() }}{% endblock %}
 
 {% block body %}
+    {% if gvgs and is_granted('ROLE_USER') %}
+    <div class="row">
+        <!--<h2>{% trans %}Upcoming GVG{% endtrans %}:</h2>-->
+        {% for gvg in gvgs %}
+        <div class="col-12">
+            <div class="alert alert-success">
+                {% if gvg.id in gvg_voted %}
+                    <div class="float-right">
+                    <span class="badge badge-success">Уже подтверждено</span>
+                    <a href="{{ path('gvg_presence', {'id': gvg.id}) }}" class="btn btn-link">Список пати</a>
+                    </div>
+                {% else %}
+                    <a href="{{ path('gvg_decline', {'id': gvg.id}) }}" class="btn btn-outline-danger float-right ml-3">{% trans %}I will not{% endtrans %}</a>
+                    <a href="{{ path('gvg_confirm', {'id': gvg.id}) }}" class="btn btn-success float-right">{% trans %}I will{% endtrans %}</a>
+                {% endif %}
+
+                <strong>{% trans %}GVG{% endtrans %} {% trans %}vs{% endtrans %} {{ gvg.enemy }}</strong> {% if gvg.territory %}<small class="text-dark">{{ gvg.territory }}</small>{% endif %}
+                <br><span class="badge badge-dark">{{ gvg.date|date('l')|trans }}, {{ gvg.time|date('H:i') }}</span> <!--<span class="badge badge-info">{{ gvg.date|date('d/m/Y') }}</span>-->
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
     <div class="row">
         <!-- ABOUT block -->
         <div class="col-12 col-md-6">
@@ -13,6 +37,7 @@
             {% if about is defined and about %}
                 {{ about.body|striptags|markdown }}
             {% endif %}
+
         </div>
         <!-- ACCEPTANCE RULES block -->
         <div class="col-12 col-md-6">

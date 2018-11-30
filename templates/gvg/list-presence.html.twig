@@ -1,0 +1,41 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}{% trans %}GVG Presence{% endtrans %} {{ parent() }}{% endblock %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-12">
+            <h1>{% trans %}GVG{% endtrans %} {% trans %}vs{% endtrans %} {{ gvg.enemy }} <small>{{ gvg.date|date('l')|trans }}, {{ gvg.time|date('H:i') }}</small></h1>
+            <table class="table table-striped table-sm">
+                <thead>
+                <tr>
+                    <th scope="col">{{ 'Name'|trans }}</th>
+                    <th scope="col">{{ 'Char class'|trans }}</th>
+                    <th scope="col">{{ 'Side'|trans }}</th>
+                    <th scope="col">{{ 'GVG Presence'|trans }}</th>
+                    <th scope="col">{{ 'GVG Party'|trans }}</th>
+                    <th scope="col"></th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for pres in presences %}
+                <tr>
+                    <th scope="row">{{ pres.user.nickName }}</th>
+                    <td>{% if pres.user.charClass %}{{ pres.user.charClass.name|trans }}{% endif %}</td>
+                    <td>{% if pres.user.charSide %}{{ pres.user.charSide.name|trans }}{% endif %}</td>
+                    <td>{% if pres.promise %}<i class="oi oi-check text-success"></i>{% else %}<i class="oi oi-x text-danger"></i>{% endif %}</td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            <br>
+        </div>
+    </div>
+{% endblock %}
+
+
+{% block javascripts %}
+{{ parent() }}
+{% endblock %}

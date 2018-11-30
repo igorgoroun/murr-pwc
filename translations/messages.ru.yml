@@ -33,6 +33,7 @@ Update: Обновление
 Send: Отправить
 Post: Запись
 Edit: Изменить
+More: Подробнее
 # Site groups
 Guest: Гость
 Member: Боец
@@ -80,6 +81,9 @@ Level: Уровень
 Accept: Принять
 Decline: Отказать
 Upcoming GVG: Предстоящие ГВГ
+GVG Presence: Присутствие на ГВГ
+GVG: ГВГ
+GVG Party: Пати на ГВГ
 Enemy: Противник
 Datetime: Дата/время
 Territory: Терра

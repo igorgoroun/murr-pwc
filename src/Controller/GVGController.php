@@ -11,6 +11,17 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class GVGController extends AbstractController
 {
+    /**
+     * @Route("/gvg/presence/{id}", name="gvg_presence", requirements={"id"="\d+"})
+     */
+    public function listPresence(GVG $gvg) {
+        $this->denyAccessUnlessGranted('ROLE_USER');
+        $presences = $gvg->getPresences();
+        return $this->render('gvg/list-presence.html.twig', [
+            'gvg' => $gvg,
+            'presences' => $presences
+        ]);
+    }
 
     /**
      * @Route("/gvg/confirm/{id}", name="gvg_confirm", requirements={"id"="\d+"})
@@ -22,7 +33,7 @@ class GVGController extends AbstractController
     /**
      * @Route("/gvg/decline/{id}", name="gvg_decline", requirements={"id"="\d+"})
      */
-    public function cvDecline(GVG $gvg) {
+    public function gvgDecline(GVG $gvg) {
         return $this->proceedPresence($gvg, false);
     }
 

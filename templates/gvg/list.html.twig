@@ -22,7 +22,7 @@
                             <p class="card-text text-muted">{{ gvg.hint }}</p>
                             {% if gvg.id in voted %}
                                 <span class="badge badge-dark">Уже подтверждено</span>
-                                <a href="#" class="btn btn-link">Список пати</a>
+                                <a href="{{ path('gvg_presence', {'id': gvg.id}) }}" class="btn btn-link">Список пати</a>
                             {% else %}
                             <a href="{{ path('gvg_confirm', {'id': gvg.id}) }}" class="btn btn-success">{% trans %}I will{% endtrans %}</a>
                             <a href="{{ path('gvg_decline', {'id': gvg.id}) }}" class="btn btn-danger">{% trans %}I will not{% endtrans %}</a>

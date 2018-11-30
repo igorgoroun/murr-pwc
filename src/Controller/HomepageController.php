@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\GVG;
 use App\Entity\HomepageBlock;
 use App\Form\HomepageBlockType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -23,18 +24,33 @@ class HomepageController extends AbstractController
 
         /* forum latest */
         $f_rep = $this->getDoctrine()->getRepository('App:ForumPost');
-        $forum_posts = $f_rep->findBy([], ['modified' => 'DESC'], 5);
+        $forum_posts = $f_rep->findBy([], ['created' => 'DESC', 'modified' => 'DESC'], 5);
 
         /* active CVs */
         $cv_rep = $this->getDoctrine()->getRepository('App:CV');
         $cvs_active = $cv_rep->findBy(['closed' => false], ['created' => 'DESC'], 2);
+
+        /* Upcoming GVG */
+        $gvg_rep = $this->getDoctrine()->getRepository('App:GVG');
+        $gvg_upcoming = $gvg_rep->findUpcoming();
+        $gvg_voted = [];
+        /** @var GVG $gvg */
+        foreach ($gvg_upcoming as $gvg) {
+            foreach ($gvg->getPresences() as $presence) {
+                if ($presence->getUser() == $this->getUser()) {
+                    $gvg_voted []= $gvg->getId();
+                }
+            }
+        }
 
         return $this->render('homepage/index.html.twig', [
             'controller_name' => 'HomepageController',
             'about' => $block_about,
             'cv' => $block_cv,
             'forum' => $forum_posts,
-            'cvs' => $cvs_active
+            'cvs' => $cvs_active,
+            'gvgs' => $gvg_upcoming,
+            'gvg_voted' => $gvg_voted
         ]);
     }
 
