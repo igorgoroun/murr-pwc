@@ -97,7 +97,7 @@ class User implements UserInterface
     private $plainPassword;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer", nullable=true)
      */
     private $level;
 
