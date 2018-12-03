@@ -12,6 +12,7 @@
                     <th scope="col">{{ knp_pagination_sortable(pagination, 'Name'|trans, 'a.realName') }}</th>
                     <th scope="col">{{ knp_pagination_sortable(pagination, 'Nickname'|trans, 'a.nickName') }}</th>
                     <th scope="col">{{ knp_pagination_sortable(pagination, 'Char class'|trans, 'c.id') }}</th>
+                    <th scope="col">{{ knp_pagination_sortable(pagination, 'Char level'|trans, 'a.level') }}</th>
                     <th scope="col">{{ knp_pagination_sortable(pagination, 'Side'|trans, 't.id') }}</th>
                     <th scope="col">{{ knp_pagination_sortable(pagination, 'Access'|trans, 'r.id') }}</th>
                     <th scope="col"></th>
@@ -25,6 +26,7 @@
                     <th scope="row">{{ user.realName }}</th>
                     <td>{{ user.nickName }}</td>
                     <td>{% if user.charClass %}{{ user.charClass.name|trans }}{% endif %}</td>
+                    <td>{{ user.leveltext }}</td>
                     <td>{% if user.charSide %}{{ user.charSide.name|trans }}{% endif %}</td>
                     <td>{{ user.userRole.name|trans }}</td>
                     <td class="text-right"><a href="{{ path('user_modify', {'id': user.id}) }}"><i class="oi oi-pencil"></i></a></td>

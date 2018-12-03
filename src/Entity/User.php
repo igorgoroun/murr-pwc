@@ -96,6 +96,12 @@ class User implements UserInterface
      */
     private $plainPassword;
 
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $level;
+
+
     public function __construct()
     {
         $this->CVs = new ArrayCollection();
@@ -428,6 +434,21 @@ class User implements UserInterface
     public function setPlainPassword(?string $plainPassword): self
     {
         $this->plainPassword = $plainPassword;
+
+        return $this;
+    }
+
+    public function getLevel(): ?int
+    {
+        return $this->level;
+    }
+    public function getLevelText(): ?string {
+        return CV::$levels[$this->level];
+    }
+
+    public function setLevel(int $level): self
+    {
+        $this->level = $level;
 
         return $this;
     }

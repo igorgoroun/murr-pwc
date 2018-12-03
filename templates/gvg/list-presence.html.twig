@@ -11,6 +11,7 @@
                 <tr>
                     <th scope="col">{{ 'Name'|trans }}</th>
                     <th scope="col">{{ 'Char class'|trans }}</th>
+                    <th scope="col">{{ 'Level'|trans }}</th>
                     <th scope="col">{{ 'Side'|trans }}</th>
                     <th scope="col" class="text-center">{{ 'GVG Presence'|trans }}</th>
                     <th scope="col">{{ 'GVG Party'|trans }}</th>
@@ -24,6 +25,7 @@
                 <tr>
                     <th scope="row">{{ pres.user.nickName }}</th>
                     <td>{% if pres.user.charClass %}{{ pres.user.charClass.name|trans }}{% endif %}</td>
+                    <th scope="row">{{ pres.user.levelText }}</th>
                     <td>{% if pres.user.charSide %}{{ pres.user.charSide.name|trans }}{% endif %}</td>
                     <td class="text-center">{% if pres.promise %}<i class="oi oi-check text-success"></i>{% else %}<i class="oi oi-x text-danger"></i>{% endif %}</td>
                     <td>{% if pres.party %}<div class="badge badge-dark">{{ pres.party.name }}</div>{% endif %}</td>
