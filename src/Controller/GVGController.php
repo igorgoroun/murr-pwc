@@ -90,8 +90,9 @@ class GVGController extends AbstractController
      */
     public function listPresence(GVG $gvg) {
         $this->denyAccessUnlessGranted('ROLE_USER');
-        $presences = $gvg->getPresences();
-        $parties = $this->getDoctrine()->getRepository('App:GVGParty')->findBy([], ['name'=>'ASC']);
+        $em = $this->getDoctrine()->getManager();
+        $presences = $em->getRepository('App:GVGPresence')->findBy(['gvg' => $gvg], ['party' => 'ASC']);
+        $parties = $em->getRepository('App:GVGParty')->findBy([], ['name'=>'ASC']);
         return $this->render('gvg/list-presence.html.twig', [
             'gvg' => $gvg,
             'presences' => $presences,
