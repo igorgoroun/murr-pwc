@@ -14,7 +14,7 @@
                     <th scope="col">{{ knp_pagination_sortable(presences, 'Level'|trans, 'u.level') }}</th>
                     <th scope="col">{{ 'Side'|trans }}</th>
                     <th scope="col" class="text-center">{{ knp_pagination_sortable(presences, 'GVG Presence'|trans, 'a.promise') }}</th>
-                    <th scope="col">{{ knp_pagination_sortable(presences, 'GVG Party'|trans, 'c.party') }}</th>
+                    <th scope="col">{{ knp_pagination_sortable(presences, 'GVG Party'|trans, 'p.id') }}</th>
                     {% if is_granted('ROLE_EDITOR') and parties %}
                     <th scope="col"></th>
                     {% endif %}

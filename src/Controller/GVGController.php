@@ -102,6 +102,8 @@ class GVGController extends AbstractController
             200
         );
 
+        dump($pagination);
+
         $parties = $em->getRepository('App:GVGParty')->findBy([], ['name'=>'ASC']);
         return $this->render('gvg/list-presence.html.twig', [
             'gvg' => $gvg,
