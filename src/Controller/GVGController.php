@@ -7,6 +7,7 @@ use App\Entity\GVGParty;
 use App\Entity\GVGPresence;
 use App\Form\GVGPartyType;
 use App\Form\GVGType;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -88,15 +89,26 @@ class GVGController extends AbstractController
     /**
      * @Route("/gvg/presence/{id}", name="gvg_presence", requirements={"id"="\d+"})
      */
-    public function listPresence(GVG $gvg) {
+    public function listPresence(GVG $gvg, Request $request, PaginatorInterface $paginator) {
         $this->denyAccessUnlessGranted('ROLE_USER');
         $em = $this->getDoctrine()->getManager();
-        $presences = $em->getRepository('App:GVGPresence')->findBy(['gvg' => $gvg], ['party' => 'ASC', 'promise' => 'DESC']);
+        //$presences = $em->getRepository('App:GVGPresence')->findBy(['gvg' => $gvg], ['party' => 'ASC', 'promise' => 'DESC']);
+        $presences = $em->getRepository('App:GVGPresence')->findPaginated($gvg);
+        //dump($presences->getSQL());
+        //exit();
+        $pagination = $paginator->paginate(
+            $presences,
+            $request->query->getInt('page', 1),
+            200
+        );
+
+        dump($pagination);
+
         $parties = $em->getRepository('App:GVGParty')->findBy([], ['name'=>'ASC']);
         return $this->render('gvg/list-presence.html.twig', [
             'gvg' => $gvg,
-            'presences' => $presences,
-            'parties' => $parties
+            'presences' => $pagination,
+            'parties' => $parties,
         ]);
     }
 

@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\GVG;
 use App\Entity\GVGPresence;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
@@ -17,6 +18,23 @@ class GVGPresenceRepository extends ServiceEntityRepository
     public function __construct(RegistryInterface $registry)
     {
         parent::__construct($registry, GVGPresence::class);
+    }
+
+    public function findPaginated(GVG $gvg)
+    {
+        $qb = $this->createQueryBuilder('a');
+        //select(['u','c.id as charClass', 't.id as partyRole', 'r.id as roleId'])
+        $query = $qb->select('a', 'u as user', 'c as char_class')
+            ->leftJoin('a.user', 'u', 'WITH', 'u.id=a.user')
+            ->leftJoin('u.charClass', 'c', 'WITH', 'c.id=u.charClass')
+            ->where('a.gvg=:gvg')
+            ->orderBy('a.party', 'ASC')
+            ->addOrderBy('a.promise', 'DESC')
+            ->addOrderBy('c.id','ASC')
+            ->setParameter('gvg', $gvg)
+            ->getQuery()
+        ;
+        return $query;
     }
 
 //    /**

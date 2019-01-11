@@ -103,7 +103,7 @@ blockquote em::before {
     margin-top: 1em;
 }
 
-.table thead th {
+.table thead th, .table thead th a {
     font-family: 'Oranienbaum', serif;
     border-top: 0px;
 }

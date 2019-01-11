@@ -9,12 +9,12 @@
             <table class="table table-striped table-sm">
                 <thead>
                 <tr>
-                    <th scope="col">{{ 'Name'|trans }}</th>
-                    <th scope="col">{{ 'Char class'|trans }}</th>
-                    <th scope="col">{{ 'Level'|trans }}</th>
+                    <th scope="col">{{ knp_pagination_sortable(presences, 'Name'|trans, 'u.nickName') }}</th>
+                    <th scope="col">{{ knp_pagination_sortable(presences, 'Char class'|trans, 'c.id') }}</th>
+                    <th scope="col">{{ knp_pagination_sortable(presences, 'Level'|trans, 'u.level') }}</th>
                     <th scope="col">{{ 'Side'|trans }}</th>
-                    <th scope="col" class="text-center">{{ 'GVG Presence'|trans }}</th>
-                    <th scope="col">{{ 'GVG Party'|trans }}</th>
+                    <th scope="col" class="text-center">{{ knp_pagination_sortable(presences, 'GVG Presence'|trans, 'a.promise') }}</th>
+                    <th scope="col">{{ knp_pagination_sortable(presences, 'GVG Party'|trans, 'c.party') }}</th>
                     {% if is_granted('ROLE_EDITOR') and parties %}
                     <th scope="col"></th>
                     {% endif %}
