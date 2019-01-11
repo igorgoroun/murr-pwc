@@ -93,16 +93,13 @@ class GVGController extends AbstractController
         $this->denyAccessUnlessGranted('ROLE_USER');
         $em = $this->getDoctrine()->getManager();
         //$presences = $em->getRepository('App:GVGPresence')->findBy(['gvg' => $gvg], ['party' => 'ASC', 'promise' => 'DESC']);
+
         $presences = $em->getRepository('App:GVGPresence')->findPaginated($gvg);
-        //dump($presences->getSQL());
-        //exit();
         $pagination = $paginator->paginate(
             $presences,
             $request->query->getInt('page', 1),
             200
         );
-
-        dump($pagination);
 
         $parties = $em->getRepository('App:GVGParty')->findBy([], ['name'=>'ASC']);
         return $this->render('gvg/list-presence.html.twig', [
