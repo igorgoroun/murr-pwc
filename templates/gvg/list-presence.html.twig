@@ -36,8 +36,9 @@
                                 {% trans %}GVG Party{% endtrans %}
                             </button>
                             <div class="dropdown-menu dropdown-menu-right">
+                                <a href="{{ path('gvg_dismiss_party_presence', {'presence': pres.id}) }}" class="dropdown-item" type=""><i class="oi oi-x"></i> {% trans %}No party{% endtrans %}</a>
                                 {% for party in parties %}
-                                <a href="{{ path('gvg_party_presence', {'party': party.id, 'presence': pres.id}) }}" class="dropdown-item" type="">{{ party.name }}</a>
+                                    <a href="{{ path('gvg_party_presence', {'party': party.id, 'presence': pres.id}) }}" class="dropdown-item" type="">{{ party.name }}</a>
                                 {% endfor %}
                             </div>
                         </div>

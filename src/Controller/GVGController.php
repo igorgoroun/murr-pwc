@@ -16,6 +16,24 @@ class GVGController extends AbstractController
 {
 
     /**
+     * @Route("/gvg/party/presence/dismiss/{presence}", name="gvg_dismiss_party_presence", requirements={"presence"="\d+"})
+     */
+    public function setDismissPartyToPresence(GVGPresence $presence) {
+        $this->denyAccessUnlessGranted('ROLE_EDITOR');
+        if (!$presence) {
+            $this->addFlash("danger", "Invalid presence requested");
+            return $this->redirectToRoute('gvg_upcoming');
+        }
+
+        $presence->setParty(null);
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($presence);
+        $em->flush();
+
+        return $this->redirectToRoute('gvg_presence', ['id' => $presence->getGvg()->getId()]);
+    }
+
+    /**
      * @Route("/gvg/party/presence/{party}/{presence}", name="gvg_party_presence", requirements={"party"="\d+","presence"="\d+"})
      */
     public function setPartyToPresence(GVGParty $party, GVGPresence $presence) {
