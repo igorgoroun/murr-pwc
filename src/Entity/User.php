@@ -101,6 +101,11 @@ class User implements UserInterface
      */
     private $level;
 
+    /**
+     * @ORM\Column(type="boolean", nullable=true, options={"default": 0})
+     */
+    private $excluded = 0;
+
 
     public function __construct()
     {
@@ -449,6 +454,18 @@ class User implements UserInterface
     public function setLevel(int $level): self
     {
         $this->level = $level;
+
+        return $this;
+    }
+
+    public function getExcluded(): ?bool
+    {
+        return $this->excluded;
+    }
+
+    public function setExcluded(?bool $excluded): self
+    {
+        $this->excluded = $excluded;
 
         return $this;
     }

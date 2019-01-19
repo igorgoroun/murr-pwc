@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Form\FilterUserType;
 use App\Form\UserProfileType;
 use App\Form\UserRegistrationType;
 use App\Form\UserType;
@@ -72,16 +73,35 @@ class UserController extends AbstractController
      */
     public function listUsers(Request $request, PaginatorInterface $paginator) {
         $rep = $this->getDoctrine()->getRepository('App:User');
-        $users = $rep->findPaginated();
+        $form = $this->createForm(FilterUserType::class);
+        $form->handleRequest($request);
+
+        $role = false;
+        $excluded = 0;
+        if ($form->isSubmitted() && $form->isValid()) {
+            if ($form->get('showGuests')->isClicked()) {
+                $role = 'ROLE_GUEST';
+            } elseif ($form->get('showMembers')->isClicked()) {
+                $role = 'ROLE_USER';
+            } elseif ($form->get('showOfficers')->isClicked()) {
+                $role = 'ROLE_CAPTAIN';
+            } elseif ($form->get('showExcluded')->isClicked()) {
+                $role = 'ROLE_GUEST';
+                $excluded = 1;
+            }
+        }
+
+        $users = $rep->findPaginated($role, $excluded);
 
         $pagination = $paginator->paginate(
             $users,
             $request->query->getInt('page', 1),
-            20
+            50
         );
 
         return $this->render('user/list.html.twig', [
             'users' => $users,
+            'filter' => $form->createView(),
             'pagination' => $pagination
         ]);
     }
