@@ -62,21 +62,7 @@ h4.murr-head p {
 }
 
 a, .btn-link {
-    /*color: darkred;*/
-    color: #B22222;
-}
-
-.btn-success:hover, .btn-success:focus, .btn-outline-success:hover, .btn-outline-success:focus {
-    background-color: #a12222;
-    border-color: #B22222;
-}
-.btn-success {
-    background-color: #B22222;
-    border-color: #B22222;
-}
-.btn-outline-success {
-    color: #B22222;
-    border-color: #B22222;
+    color: #1e7e34;
 }
 
 .container.bg-black-80 {
@@ -175,7 +161,7 @@ blockquote em::before {
 .navbar-expand-lg .navbar-nav .nav-link:hover,
 .navbar-expand-lg .navbar-nav .active .nav-link
 {
-    background-color: #B22222;
+    background-color: #1e7e34;
     color: #fff;
 }
 

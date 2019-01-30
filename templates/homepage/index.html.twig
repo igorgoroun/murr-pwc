@@ -1,6 +1,6 @@
 {% extends 'layout.html.twig' %}
 
-{% block title %}{% trans %}Guild{% endtrans %} Murr {{ parent() }}{% endblock %}
+{% block title %}{% trans %}Guild{% endtrans %} {{ parent() }}{% endblock %}
 
 {% block body %}
     {% if gvgs and is_granted('ROLE_USER') %}
